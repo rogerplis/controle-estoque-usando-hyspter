@@ -42,7 +42,9 @@
     "jwtSecretKey": "NmQ2NDdjM2U0MDYyMzgwMTVjOTE0ZjMyNmJiMTNlM2JlMTFlMGM3ODFiZTAwZjg3ZjJlZWFjMWY3MzU5OGZhODM1N2JmYTRjZTE1YTFjNTJlMjc4YzgwMzQyZTI0NTU0OGVhNGZhZjdmYTVlNzk4YWViNTc1YzgxODI3NDBjNzc=",
     "clientTheme": "none",
     "clientThemeVariant": "",
-    "reactive": false
+    "reactive": false,
+    "entities": ["Region", "Country", "Location", "Department", "Task", "Employee", "Job", "JobHistory"],
+    "lastLiquibaseTimestamp": 1624026120000
   },
   "git-provider": "GitHub",
   "git-company": "rogerplis",
