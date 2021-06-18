@@ -16,7 +16,7 @@
     }
   ],
   "entityTableName": "country",
-  "dto": "no",
+  "dto": "mapstruct",
   "pagination": "no",
   "service": "serviceImpl",
   "jpaMetamodelFiltering": false,

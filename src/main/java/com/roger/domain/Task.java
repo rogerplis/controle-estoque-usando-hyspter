@@ -1,7 +1,6 @@
 package com.roger.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.swagger.annotations.ApiModel;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +11,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 /**
  * Task entity.\n@author The JHipster team.
  */
-@ApiModel(description = "Task entity.\n@author The JHipster team.")
 @Entity
 @Table(name = "task")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

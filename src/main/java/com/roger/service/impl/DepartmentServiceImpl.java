@@ -3,8 +3,12 @@ package com.roger.service.impl;
 import com.roger.domain.Department;
 import com.roger.repository.DepartmentRepository;
 import com.roger.service.DepartmentService;
+import com.roger.service.dto.DepartmentDTO;
+import com.roger.service.mapper.DepartmentMapper;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,46 +25,49 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     private final DepartmentRepository departmentRepository;
 
-    public DepartmentServiceImpl(DepartmentRepository departmentRepository) {
+    private final DepartmentMapper departmentMapper;
+
+    public DepartmentServiceImpl(DepartmentRepository departmentRepository, DepartmentMapper departmentMapper) {
         this.departmentRepository = departmentRepository;
+        this.departmentMapper = departmentMapper;
     }
 
     @Override
-    public Department save(Department department) {
-        log.debug("Request to save Department : {}", department);
-        return departmentRepository.save(department);
+    public DepartmentDTO save(DepartmentDTO departmentDTO) {
+        log.debug("Request to save Department : {}", departmentDTO);
+        Department department = departmentMapper.toEntity(departmentDTO);
+        department = departmentRepository.save(department);
+        return departmentMapper.toDto(department);
     }
 
     @Override
-    public Optional<Department> partialUpdate(Department department) {
-        log.debug("Request to partially update Department : {}", department);
+    public Optional<DepartmentDTO> partialUpdate(DepartmentDTO departmentDTO) {
+        log.debug("Request to partially update Department : {}", departmentDTO);
 
         return departmentRepository
-            .findById(department.getId())
+            .findById(departmentDTO.getId())
             .map(
                 existingDepartment -> {
-                    if (department.getDepartmentName() != null) {
-                        existingDepartment.setDepartmentName(department.getDepartmentName());
-                    }
-
+                    departmentMapper.partialUpdate(existingDepartment, departmentDTO);
                     return existingDepartment;
                 }
             )
-            .map(departmentRepository::save);
+            .map(departmentRepository::save)
+            .map(departmentMapper::toDto);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Department> findAll() {
+    public List<DepartmentDTO> findAll() {
         log.debug("Request to get all Departments");
-        return departmentRepository.findAll();
+        return departmentRepository.findAll().stream().map(departmentMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Department> findOne(Long id) {
+    public Optional<DepartmentDTO> findOne(Long id) {
         log.debug("Request to get Department : {}", id);
-        return departmentRepository.findById(id);
+        return departmentRepository.findById(id).map(departmentMapper::toDto);
     }
 
     @Override

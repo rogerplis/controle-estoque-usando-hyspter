@@ -1,8 +1,6 @@
 package com.roger.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
@@ -14,7 +12,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 /**
  * The Employee entity.
  */
-@ApiModel(description = "The Employee entity.")
 @Entity
 @Table(name = "employee")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -30,7 +27,6 @@ public class Employee implements Serializable {
     /**
      * The firstname attribute.
      */
-    @ApiModelProperty(value = "The firstname attribute.")
     @Column(name = "first_name")
     private String firstName;
 
@@ -64,7 +60,6 @@ public class Employee implements Serializable {
     /**
      * Another side of the same relationship
      */
-    @ApiModelProperty(value = "Another side of the same relationship")
     @ManyToOne
     @JsonIgnoreProperties(value = { "location", "employees" }, allowSetters = true)
     private Department department;

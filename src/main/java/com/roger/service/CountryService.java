@@ -1,35 +1,35 @@
 package com.roger.service;
 
-import com.roger.domain.Country;
+import com.roger.service.dto.CountryDTO;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Service Interface for managing {@link Country}.
+ * Service Interface for managing {@link com.roger.domain.Country}.
  */
 public interface CountryService {
     /**
      * Save a country.
      *
-     * @param country the entity to save.
+     * @param countryDTO the entity to save.
      * @return the persisted entity.
      */
-    Country save(Country country);
+    CountryDTO save(CountryDTO countryDTO);
 
     /**
      * Partially updates a country.
      *
-     * @param country the entity to update partially.
+     * @param countryDTO the entity to update partially.
      * @return the persisted entity.
      */
-    Optional<Country> partialUpdate(Country country);
+    Optional<CountryDTO> partialUpdate(CountryDTO countryDTO);
 
     /**
      * Get all the countries.
      *
      * @return the list of entities.
      */
-    List<Country> findAll();
+    List<CountryDTO> findAll();
 
     /**
      * Get the "id" country.
@@ -37,7 +37,7 @@ public interface CountryService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<Country> findOne(Long id);
+    Optional<CountryDTO> findOne(Long id);
 
     /**
      * Delete the "id" country.

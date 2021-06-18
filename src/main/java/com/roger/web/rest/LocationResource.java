@@ -1,8 +1,8 @@
 package com.roger.web.rest;
 
-import com.roger.domain.Location;
 import com.roger.repository.LocationRepository;
 import com.roger.service.LocationService;
+import com.roger.service.dto.LocationDTO;
 import com.roger.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -43,17 +43,17 @@ public class LocationResource {
     /**
      * {@code POST  /locations} : Create a new location.
      *
-     * @param location the location to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new location, or with status {@code 400 (Bad Request)} if the location has already an ID.
+     * @param locationDTO the locationDTO to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new locationDTO, or with status {@code 400 (Bad Request)} if the location has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/locations")
-    public ResponseEntity<Location> createLocation(@RequestBody Location location) throws URISyntaxException {
-        log.debug("REST request to save Location : {}", location);
-        if (location.getId() != null) {
+    public ResponseEntity<LocationDTO> createLocation(@RequestBody LocationDTO locationDTO) throws URISyntaxException {
+        log.debug("REST request to save Location : {}", locationDTO);
+        if (locationDTO.getId() != null) {
             throw new BadRequestAlertException("A new location cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Location result = locationService.save(location);
+        LocationDTO result = locationService.save(locationDTO);
         return ResponseEntity
             .created(new URI("/api/locations/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -63,23 +63,23 @@ public class LocationResource {
     /**
      * {@code PUT  /locations/:id} : Updates an existing location.
      *
-     * @param id the id of the location to save.
-     * @param location the location to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated location,
-     * or with status {@code 400 (Bad Request)} if the location is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the location couldn't be updated.
+     * @param id the id of the locationDTO to save.
+     * @param locationDTO the locationDTO to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated locationDTO,
+     * or with status {@code 400 (Bad Request)} if the locationDTO is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the locationDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/locations/{id}")
-    public ResponseEntity<Location> updateLocation(
+    public ResponseEntity<LocationDTO> updateLocation(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody Location location
+        @RequestBody LocationDTO locationDTO
     ) throws URISyntaxException {
-        log.debug("REST request to update Location : {}, {}", id, location);
-        if (location.getId() == null) {
+        log.debug("REST request to update Location : {}, {}", id, locationDTO);
+        if (locationDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, location.getId())) {
+        if (!Objects.equals(id, locationDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -87,34 +87,34 @@ public class LocationResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Location result = locationService.save(location);
+        LocationDTO result = locationService.save(locationDTO);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, location.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, locationDTO.getId().toString()))
             .body(result);
     }
 
     /**
      * {@code PATCH  /locations/:id} : Partial updates given fields of an existing location, field will ignore if it is null
      *
-     * @param id the id of the location to save.
-     * @param location the location to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated location,
-     * or with status {@code 400 (Bad Request)} if the location is not valid,
-     * or with status {@code 404 (Not Found)} if the location is not found,
-     * or with status {@code 500 (Internal Server Error)} if the location couldn't be updated.
+     * @param id the id of the locationDTO to save.
+     * @param locationDTO the locationDTO to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated locationDTO,
+     * or with status {@code 400 (Bad Request)} if the locationDTO is not valid,
+     * or with status {@code 404 (Not Found)} if the locationDTO is not found,
+     * or with status {@code 500 (Internal Server Error)} if the locationDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/locations/{id}", consumes = "application/merge-patch+json")
-    public ResponseEntity<Location> partialUpdateLocation(
+    public ResponseEntity<LocationDTO> partialUpdateLocation(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody Location location
+        @RequestBody LocationDTO locationDTO
     ) throws URISyntaxException {
-        log.debug("REST request to partial update Location partially : {}, {}", id, location);
-        if (location.getId() == null) {
+        log.debug("REST request to partial update Location partially : {}, {}", id, locationDTO);
+        if (locationDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, location.getId())) {
+        if (!Objects.equals(id, locationDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -122,11 +122,11 @@ public class LocationResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Optional<Location> result = locationService.partialUpdate(location);
+        Optional<LocationDTO> result = locationService.partialUpdate(locationDTO);
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, location.getId().toString())
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, locationDTO.getId().toString())
         );
     }
 
@@ -136,7 +136,7 @@ public class LocationResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of locations in body.
      */
     @GetMapping("/locations")
-    public List<Location> getAllLocations() {
+    public List<LocationDTO> getAllLocations() {
         log.debug("REST request to get all Locations");
         return locationService.findAll();
     }
@@ -144,20 +144,20 @@ public class LocationResource {
     /**
      * {@code GET  /locations/:id} : get the "id" location.
      *
-     * @param id the id of the location to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the location, or with status {@code 404 (Not Found)}.
+     * @param id the id of the locationDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the locationDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/locations/{id}")
-    public ResponseEntity<Location> getLocation(@PathVariable Long id) {
+    public ResponseEntity<LocationDTO> getLocation(@PathVariable Long id) {
         log.debug("REST request to get Location : {}", id);
-        Optional<Location> location = locationService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(location);
+        Optional<LocationDTO> locationDTO = locationService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(locationDTO);
     }
 
     /**
      * {@code DELETE  /locations/:id} : delete the "id" location.
      *
-     * @param id the id of the location to delete.
+     * @param id the id of the locationDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/locations/{id}")

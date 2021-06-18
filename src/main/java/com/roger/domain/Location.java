@@ -1,7 +1,6 @@
 package com.roger.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.swagger.annotations.ApiModel;
 import java.io.Serializable;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
@@ -10,7 +9,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 /**
  * not an ignored comment
  */
-@ApiModel(description = "not an ignored comment")
 @Entity
 @Table(name = "location")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

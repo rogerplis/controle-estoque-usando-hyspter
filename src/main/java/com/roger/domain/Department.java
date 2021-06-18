@@ -1,7 +1,6 @@
 package com.roger.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -37,7 +36,6 @@ public class Department implements Serializable {
     /**
      * A relationship
      */
-    @ApiModelProperty(value = "A relationship")
     @OneToMany(mappedBy = "department")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "jobs", "manager", "department" }, allowSetters = true)

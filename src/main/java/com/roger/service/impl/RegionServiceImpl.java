@@ -3,8 +3,12 @@ package com.roger.service.impl;
 import com.roger.domain.Region;
 import com.roger.repository.RegionRepository;
 import com.roger.service.RegionService;
+import com.roger.service.dto.RegionDTO;
+import com.roger.service.mapper.RegionMapper;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,46 +25,49 @@ public class RegionServiceImpl implements RegionService {
 
     private final RegionRepository regionRepository;
 
-    public RegionServiceImpl(RegionRepository regionRepository) {
+    private final RegionMapper regionMapper;
+
+    public RegionServiceImpl(RegionRepository regionRepository, RegionMapper regionMapper) {
         this.regionRepository = regionRepository;
+        this.regionMapper = regionMapper;
     }
 
     @Override
-    public Region save(Region region) {
-        log.debug("Request to save Region : {}", region);
-        return regionRepository.save(region);
+    public RegionDTO save(RegionDTO regionDTO) {
+        log.debug("Request to save Region : {}", regionDTO);
+        Region region = regionMapper.toEntity(regionDTO);
+        region = regionRepository.save(region);
+        return regionMapper.toDto(region);
     }
 
     @Override
-    public Optional<Region> partialUpdate(Region region) {
-        log.debug("Request to partially update Region : {}", region);
+    public Optional<RegionDTO> partialUpdate(RegionDTO regionDTO) {
+        log.debug("Request to partially update Region : {}", regionDTO);
 
         return regionRepository
-            .findById(region.getId())
+            .findById(regionDTO.getId())
             .map(
                 existingRegion -> {
-                    if (region.getRegionName() != null) {
-                        existingRegion.setRegionName(region.getRegionName());
-                    }
-
+                    regionMapper.partialUpdate(existingRegion, regionDTO);
                     return existingRegion;
                 }
             )
-            .map(regionRepository::save);
+            .map(regionRepository::save)
+            .map(regionMapper::toDto);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Region> findAll() {
+    public List<RegionDTO> findAll() {
         log.debug("Request to get all Regions");
-        return regionRepository.findAll();
+        return regionRepository.findAll().stream().map(regionMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Region> findOne(Long id) {
+    public Optional<RegionDTO> findOne(Long id) {
         log.debug("Request to get Region : {}", id);
-        return regionRepository.findById(id);
+        return regionRepository.findById(id).map(regionMapper::toDto);
     }
 
     @Override

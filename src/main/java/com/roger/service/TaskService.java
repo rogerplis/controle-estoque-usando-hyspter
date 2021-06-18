@@ -1,35 +1,35 @@
 package com.roger.service;
 
-import com.roger.domain.Task;
+import com.roger.service.dto.TaskDTO;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Service Interface for managing {@link Task}.
+ * Service Interface for managing {@link com.roger.domain.Task}.
  */
 public interface TaskService {
     /**
      * Save a task.
      *
-     * @param task the entity to save.
+     * @param taskDTO the entity to save.
      * @return the persisted entity.
      */
-    Task save(Task task);
+    TaskDTO save(TaskDTO taskDTO);
 
     /**
      * Partially updates a task.
      *
-     * @param task the entity to update partially.
+     * @param taskDTO the entity to update partially.
      * @return the persisted entity.
      */
-    Optional<Task> partialUpdate(Task task);
+    Optional<TaskDTO> partialUpdate(TaskDTO taskDTO);
 
     /**
      * Get all the tasks.
      *
      * @return the list of entities.
      */
-    List<Task> findAll();
+    List<TaskDTO> findAll();
 
     /**
      * Get the "id" task.
@@ -37,7 +37,7 @@ public interface TaskService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<Task> findOne(Long id);
+    Optional<TaskDTO> findOne(Long id);
 
     /**
      * Delete the "id" task.

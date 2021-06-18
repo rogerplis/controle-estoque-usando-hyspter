@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.roger.IntegrationTest;
 import com.roger.domain.Department;
 import com.roger.repository.DepartmentRepository;
+import com.roger.service.dto.DepartmentDTO;
+import com.roger.service.mapper.DepartmentMapper;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -40,6 +42,9 @@ class DepartmentResourceIT {
 
     @Autowired
     private DepartmentRepository departmentRepository;
+
+    @Autowired
+    private DepartmentMapper departmentMapper;
 
     @Autowired
     private EntityManager em;
@@ -81,8 +86,9 @@ class DepartmentResourceIT {
     void createDepartment() throws Exception {
         int databaseSizeBeforeCreate = departmentRepository.findAll().size();
         // Create the Department
+        DepartmentDTO departmentDTO = departmentMapper.toDto(department);
         restDepartmentMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(department)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(departmentDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Department in the database
@@ -97,12 +103,13 @@ class DepartmentResourceIT {
     void createDepartmentWithExistingId() throws Exception {
         // Create the Department with an existing ID
         department.setId(1L);
+        DepartmentDTO departmentDTO = departmentMapper.toDto(department);
 
         int databaseSizeBeforeCreate = departmentRepository.findAll().size();
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restDepartmentMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(department)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(departmentDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Department in the database
@@ -118,9 +125,10 @@ class DepartmentResourceIT {
         department.setDepartmentName(null);
 
         // Create the Department, which fails.
+        DepartmentDTO departmentDTO = departmentMapper.toDto(department);
 
         restDepartmentMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(department)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(departmentDTO)))
             .andExpect(status().isBadRequest());
 
         List<Department> departmentList = departmentRepository.findAll();
@@ -177,12 +185,13 @@ class DepartmentResourceIT {
         // Disconnect from session so that the updates on updatedDepartment are not directly saved in db
         em.detach(updatedDepartment);
         updatedDepartment.departmentName(UPDATED_DEPARTMENT_NAME);
+        DepartmentDTO departmentDTO = departmentMapper.toDto(updatedDepartment);
 
         restDepartmentMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, updatedDepartment.getId())
+                put(ENTITY_API_URL_ID, departmentDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(updatedDepartment))
+                    .content(TestUtil.convertObjectToJsonBytes(departmentDTO))
             )
             .andExpect(status().isOk());
 
@@ -199,12 +208,15 @@ class DepartmentResourceIT {
         int databaseSizeBeforeUpdate = departmentRepository.findAll().size();
         department.setId(count.incrementAndGet());
 
+        // Create the Department
+        DepartmentDTO departmentDTO = departmentMapper.toDto(department);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restDepartmentMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, department.getId())
+                put(ENTITY_API_URL_ID, departmentDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(department))
+                    .content(TestUtil.convertObjectToJsonBytes(departmentDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -219,12 +231,15 @@ class DepartmentResourceIT {
         int databaseSizeBeforeUpdate = departmentRepository.findAll().size();
         department.setId(count.incrementAndGet());
 
+        // Create the Department
+        DepartmentDTO departmentDTO = departmentMapper.toDto(department);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restDepartmentMockMvc
             .perform(
                 put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(department))
+                    .content(TestUtil.convertObjectToJsonBytes(departmentDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -239,9 +254,12 @@ class DepartmentResourceIT {
         int databaseSizeBeforeUpdate = departmentRepository.findAll().size();
         department.setId(count.incrementAndGet());
 
+        // Create the Department
+        DepartmentDTO departmentDTO = departmentMapper.toDto(department);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restDepartmentMockMvc
-            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(department)))
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(departmentDTO)))
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the Department in the database
@@ -311,12 +329,15 @@ class DepartmentResourceIT {
         int databaseSizeBeforeUpdate = departmentRepository.findAll().size();
         department.setId(count.incrementAndGet());
 
+        // Create the Department
+        DepartmentDTO departmentDTO = departmentMapper.toDto(department);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restDepartmentMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, department.getId())
+                patch(ENTITY_API_URL_ID, departmentDTO.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(department))
+                    .content(TestUtil.convertObjectToJsonBytes(departmentDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -331,12 +352,15 @@ class DepartmentResourceIT {
         int databaseSizeBeforeUpdate = departmentRepository.findAll().size();
         department.setId(count.incrementAndGet());
 
+        // Create the Department
+        DepartmentDTO departmentDTO = departmentMapper.toDto(department);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restDepartmentMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(department))
+                    .content(TestUtil.convertObjectToJsonBytes(departmentDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -351,10 +375,13 @@ class DepartmentResourceIT {
         int databaseSizeBeforeUpdate = departmentRepository.findAll().size();
         department.setId(count.incrementAndGet());
 
+        // Create the Department
+        DepartmentDTO departmentDTO = departmentMapper.toDto(department);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restDepartmentMockMvc
             .perform(
-                patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(department))
+                patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(departmentDTO))
             )
             .andExpect(status().isMethodNotAllowed());
 
