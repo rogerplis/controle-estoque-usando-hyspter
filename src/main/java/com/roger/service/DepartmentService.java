@@ -1,35 +1,35 @@
 package com.roger.service;
 
-import com.roger.domain.Department;
+import com.roger.service.dto.DepartmentDTO;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Service Interface for managing {@link Department}.
+ * Service Interface for managing {@link com.roger.domain.Department}.
  */
 public interface DepartmentService {
     /**
      * Save a department.
      *
-     * @param department the entity to save.
+     * @param departmentDTO the entity to save.
      * @return the persisted entity.
      */
-    Department save(Department department);
+    DepartmentDTO save(DepartmentDTO departmentDTO);
 
     /**
      * Partially updates a department.
      *
-     * @param department the entity to update partially.
+     * @param departmentDTO the entity to update partially.
      * @return the persisted entity.
      */
-    Optional<Department> partialUpdate(Department department);
+    Optional<DepartmentDTO> partialUpdate(DepartmentDTO departmentDTO);
 
     /**
      * Get all the departments.
      *
      * @return the list of entities.
      */
-    List<Department> findAll();
+    List<DepartmentDTO> findAll();
 
     /**
      * Get the "id" department.
@@ -37,7 +37,7 @@ public interface DepartmentService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<Department> findOne(Long id);
+    Optional<DepartmentDTO> findOne(Long id);
 
     /**
      * Delete the "id" department.

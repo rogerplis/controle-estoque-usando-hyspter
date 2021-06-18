@@ -39,7 +39,7 @@
     }
   ],
   "entityTableName": "job_history",
-  "dto": "no",
+  "dto": "mapstruct",
   "pagination": "infinite-scroll",
   "service": "serviceImpl",
   "jpaMetamodelFiltering": false,

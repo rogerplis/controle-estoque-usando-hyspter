@@ -3,6 +3,8 @@ package com.roger.service.impl;
 import com.roger.domain.JobHistory;
 import com.roger.repository.JobHistoryRepository;
 import com.roger.service.JobHistoryService;
+import com.roger.service.dto.JobHistoryDTO;
+import com.roger.service.mapper.JobHistoryMapper;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,52 +24,49 @@ public class JobHistoryServiceImpl implements JobHistoryService {
 
     private final JobHistoryRepository jobHistoryRepository;
 
-    public JobHistoryServiceImpl(JobHistoryRepository jobHistoryRepository) {
+    private final JobHistoryMapper jobHistoryMapper;
+
+    public JobHistoryServiceImpl(JobHistoryRepository jobHistoryRepository, JobHistoryMapper jobHistoryMapper) {
         this.jobHistoryRepository = jobHistoryRepository;
+        this.jobHistoryMapper = jobHistoryMapper;
     }
 
     @Override
-    public JobHistory save(JobHistory jobHistory) {
-        log.debug("Request to save JobHistory : {}", jobHistory);
-        return jobHistoryRepository.save(jobHistory);
+    public JobHistoryDTO save(JobHistoryDTO jobHistoryDTO) {
+        log.debug("Request to save JobHistory : {}", jobHistoryDTO);
+        JobHistory jobHistory = jobHistoryMapper.toEntity(jobHistoryDTO);
+        jobHistory = jobHistoryRepository.save(jobHistory);
+        return jobHistoryMapper.toDto(jobHistory);
     }
 
     @Override
-    public Optional<JobHistory> partialUpdate(JobHistory jobHistory) {
-        log.debug("Request to partially update JobHistory : {}", jobHistory);
+    public Optional<JobHistoryDTO> partialUpdate(JobHistoryDTO jobHistoryDTO) {
+        log.debug("Request to partially update JobHistory : {}", jobHistoryDTO);
 
         return jobHistoryRepository
-            .findById(jobHistory.getId())
+            .findById(jobHistoryDTO.getId())
             .map(
                 existingJobHistory -> {
-                    if (jobHistory.getStartDate() != null) {
-                        existingJobHistory.setStartDate(jobHistory.getStartDate());
-                    }
-                    if (jobHistory.getEndDate() != null) {
-                        existingJobHistory.setEndDate(jobHistory.getEndDate());
-                    }
-                    if (jobHistory.getLanguage() != null) {
-                        existingJobHistory.setLanguage(jobHistory.getLanguage());
-                    }
-
+                    jobHistoryMapper.partialUpdate(existingJobHistory, jobHistoryDTO);
                     return existingJobHistory;
                 }
             )
-            .map(jobHistoryRepository::save);
+            .map(jobHistoryRepository::save)
+            .map(jobHistoryMapper::toDto);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Page<JobHistory> findAll(Pageable pageable) {
+    public Page<JobHistoryDTO> findAll(Pageable pageable) {
         log.debug("Request to get all JobHistories");
-        return jobHistoryRepository.findAll(pageable);
+        return jobHistoryRepository.findAll(pageable).map(jobHistoryMapper::toDto);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<JobHistory> findOne(Long id) {
+    public Optional<JobHistoryDTO> findOne(Long id) {
         log.debug("Request to get JobHistory : {}", id);
-        return jobHistoryRepository.findById(id);
+        return jobHistoryRepository.findById(id).map(jobHistoryMapper::toDto);
     }
 
     @Override
