@@ -11,11 +11,16 @@ entity Country {
 /** not an ignored comment */
 entity Location {
 	streetAddress String,
+    numberAddress Long,
 	postalCode String,
 	city String,
 	stateProvince String
 }
-
+entity Companion {
+	companyName String,
+    cnpj String,
+    
+}
 entity Department {
 	departmentName String required
 }
@@ -40,20 +45,47 @@ entity Employee {
 	lastName String,
 	email String,
 	phoneNumber String,
-	hireDate Instant,
-	salary Long,
-	commissionPct Long
+    cpf String,
+    pis String,
+    ctps String,
+	birthDate LocalDate
 }
 
 entity Job {
 	jobTitle String,
+    hireDate LocalDate,
+	salary Long,   
+	commissionPct Long,
 	minSalary Long,
 	maxSalary Long
 }
+enum Days {
+	SEGUNDA, TERCA, QUARTA,
+	QUINTA, SEXTA, SABADO, DOMINGO
+}
+entity WorkingHours {
+	entry Time,
+	leavingWork LocalTime,
+	extraTime LocalTime,
+	extraTime2 LocalTime,
+	entryRest LocalTime,
+	returnRest LocalTime,
+    dayWeek LocalDate
+	day Days
+}
+entity Journey {
+	journeyName String,
+    tolerance Integer,
+    startJourney LocalTime,
+    endJourney LocalTime,
+    dayOut LocalDate,
+    startDate LocalDate,
+    endDate LocalDate
+}
 
 entity JobHistory {
-	startDate Instant,
-	endDate Instant,
+	startDate LocalDate,
+	endDate LocalDate,
 	language Language
 }
 
@@ -68,6 +100,12 @@ relationship OneToOne {
 relationship OneToOne {
 	Location{country} to Country
 }
+relationship OneToOne {
+	Companion{location} to Location
+}
+relationship ManyToOne {
+	Department{companion} to Companion
+}
 
 relationship OneToOne {
 	Department{location} to Location
@@ -75,6 +113,12 @@ relationship OneToOne {
 
 relationship ManyToMany {
 	Job{task(title)} to Task{job}
+}
+relationship ManyToMany {
+	Employee{journey} to Journey{employee}
+}
+relationship ManyToMany {
+	WorkingHours{journey} to Journey{workinghours}
 }
 
 // defining multiple OneToMany relationships with comments
@@ -109,7 +153,7 @@ paginate Job with pagination
 dto * with mapstruct
 
 // Set service options to all except few
-service all with serviceImpl except Employee, Job
+service all with serviceImpl
 
 // Set an angular suffix
 // angularSuffix * with mySuffix
