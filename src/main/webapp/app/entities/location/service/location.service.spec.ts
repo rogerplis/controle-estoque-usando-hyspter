@@ -23,6 +23,7 @@ describe('Service Tests', () => {
       elemDefault = {
         id: 0,
         streetAddress: 'AAAAAAA',
+        numberAddress: 0,
         postalCode: 'AAAAAAA',
         city: 'AAAAAAA',
         stateProvince: 'AAAAAAA',
@@ -62,6 +63,7 @@ describe('Service Tests', () => {
           {
             id: 1,
             streetAddress: 'BBBBBB',
+            numberAddress: 1,
             postalCode: 'BBBBBB',
             city: 'BBBBBB',
             stateProvince: 'BBBBBB',
@@ -82,7 +84,8 @@ describe('Service Tests', () => {
         const patchObject = Object.assign(
           {
             streetAddress: 'BBBBBB',
-            city: 'BBBBBB',
+            postalCode: 'BBBBBB',
+            stateProvince: 'BBBBBB',
           },
           new Location()
         );
@@ -103,6 +106,7 @@ describe('Service Tests', () => {
           {
             id: 1,
             streetAddress: 'BBBBBB',
+            numberAddress: 1,
             postalCode: 'BBBBBB',
             city: 'BBBBBB',
             stateProvince: 'BBBBBB',
@@ -157,7 +161,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique Location to an array', () => {
-          const locationArray: ILocation[] = [{ id: 123 }, { id: 456 }, { id: 96203 }];
+          const locationArray: ILocation[] = [{ id: 123 }, { id: 456 }, { id: 3491 }];
           const locationCollection: ILocation[] = [{ id: 123 }];
           expectedResult = service.addLocationToCollectionIfMissing(locationCollection, ...locationArray);
           expect(expectedResult).toHaveLength(3);

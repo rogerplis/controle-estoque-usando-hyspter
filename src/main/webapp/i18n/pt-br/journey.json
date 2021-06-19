@@ -1,0 +1,32 @@
+{
+  "controleestoquehyspterApp": {
+    "journey": {
+      "home": {
+        "title": "Journeys",
+        "refreshListLabel": "Atualizar lista",
+        "createLabel": "Criar novo Journey",
+        "createOrEditLabel": "Criar ou editar Journey",
+        "notFound": "Nenhum Journey encontrado"
+      },
+      "created": "Um novo Journey foi criado com o identificador {{ param }}",
+      "updated": "Um Journey foi atualizado com o identificador {{ param }}",
+      "deleted": "Um Journey foi excluído com o identificador {{ param }}",
+      "delete": {
+        "question": "Tem certeza de que deseja excluir Journey {{ id }}?"
+      },
+      "detail": {
+        "title": "Journey"
+      },
+      "id": "ID",
+      "journeyName": "Journey Name",
+      "tolerance": "Tolerance",
+      "startJourney": "Start Journey",
+      "endJourney": "End Journey",
+      "dayOut": "Day Out",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "employee": "Employee",
+      "workinghours": "Workinghours"
+    }
+  }
+}

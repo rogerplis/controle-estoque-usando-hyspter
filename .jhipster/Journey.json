@@ -1,0 +1,59 @@
+{
+  "name": "Journey",
+  "fields": [
+    {
+      "fieldName": "journeyName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tolerance",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "startJourney",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "endJourney",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "dayOut",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "startDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "employee",
+      "otherEntityRelationshipName": "journey",
+      "relationshipName": "employee",
+      "ownerSide": false
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "workingHours",
+      "otherEntityRelationshipName": "journey",
+      "relationshipName": "workinghours",
+      "ownerSide": false
+    }
+  ],
+  "entityTableName": "journey",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210619010804"
+}

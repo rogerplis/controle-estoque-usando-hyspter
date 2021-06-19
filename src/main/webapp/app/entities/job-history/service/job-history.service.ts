@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import * as dayjs from 'dayjs';
 
 import { isPresent } from 'app/core/util/operators';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IJobHistory, getJobHistoryIdentifier } from '../job-history.model';
@@ -78,8 +79,8 @@ export class JobHistoryService {
 
   protected convertDateFromClient(jobHistory: IJobHistory): IJobHistory {
     return Object.assign({}, jobHistory, {
-      startDate: jobHistory.startDate?.isValid() ? jobHistory.startDate.toJSON() : undefined,
-      endDate: jobHistory.endDate?.isValid() ? jobHistory.endDate.toJSON() : undefined,
+      startDate: jobHistory.startDate?.isValid() ? jobHistory.startDate.format(DATE_FORMAT) : undefined,
+      endDate: jobHistory.endDate?.isValid() ? jobHistory.endDate.format(DATE_FORMAT) : undefined,
     });
   }
 

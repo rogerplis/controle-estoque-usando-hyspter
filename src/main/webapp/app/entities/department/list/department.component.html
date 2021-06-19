@@ -35,6 +35,7 @@
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="controleestoquehyspterApp.department.departmentName">Department Name</span></th>
           <th scope="col"><span jhiTranslate="controleestoquehyspterApp.department.location">Location</span></th>
+          <th scope="col"><span jhiTranslate="controleestoquehyspterApp.department.companion">Companion</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -47,6 +48,11 @@
           <td>
             <div *ngIf="department.location">
               <a [routerLink]="['/location', department.location?.id, 'view']">{{ department.location?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="department.companion">
+              <a [routerLink]="['/companion', department.companion?.id, 'view']">{{ department.companion?.id }}</a>
             </div>
           </td>
           <td class="text-right">

@@ -1,0 +1,69 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="workingHours">
+      <h2 data-cy="workingHoursDetailsHeading">
+        <span jhiTranslate="controleestoquehyspterApp.workingHours.detail.title">Working Hours</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ workingHours.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.workingHours.entry">Entry</span></dt>
+        <dd>
+          <span>{{ workingHours.entry | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.workingHours.leavingWork">Leaving Work</span></dt>
+        <dd>
+          <span>{{ workingHours.leavingWork | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.workingHours.extraTime">Extra Time</span></dt>
+        <dd>
+          <span>{{ workingHours.extraTime | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.workingHours.extraTime2">Extra Time 2</span></dt>
+        <dd>
+          <span>{{ workingHours.extraTime2 | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.workingHours.entryRest">Entry Rest</span></dt>
+        <dd>
+          <span>{{ workingHours.entryRest | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.workingHours.returnRest">Return Rest</span></dt>
+        <dd>
+          <span>{{ workingHours.returnRest | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.workingHours.dayWeek">Day Week</span></dt>
+        <dd>
+          <span>{{ workingHours.dayWeek | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.workingHours.day">Day</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'controleestoquehyspterApp.Days.' + workingHours.day }}">{{ workingHours.day }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.workingHours.journey">Journey</span></dt>
+        <dd>
+          <span *ngFor="let journey of workingHours.journeys; let last = last">
+            <a [routerLink]="['/journey', journey?.id, 'view']">{{ journey.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/working-hours', workingHours.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

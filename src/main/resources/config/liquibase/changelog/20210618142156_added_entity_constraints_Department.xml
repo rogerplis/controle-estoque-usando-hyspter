@@ -13,5 +13,11 @@
                                  constraintName="fk_department__location_id"
                                  referencedColumnNames="id"
                                  referencedTableName="location"/>
+
+        <addForeignKeyConstraint baseColumnNames="companion_id"
+                                 baseTableName="department"
+                                 constraintName="fk_department__companion_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="companion"/>
     </changeSet>
 </databaseChangeLog>

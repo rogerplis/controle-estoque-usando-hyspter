@@ -38,8 +38,12 @@ public class Department implements Serializable {
      */
     @OneToMany(mappedBy = "department")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "jobs", "manager", "department" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "jobs", "manager", "journeys", "department" }, allowSetters = true)
     private Set<Employee> employees = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "location" }, allowSetters = true)
+    private Companion companion;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -110,6 +114,19 @@ public class Department implements Serializable {
             employees.forEach(i -> i.setDepartment(this));
         }
         this.employees = employees;
+    }
+
+    public Companion getCompanion() {
+        return this.companion;
+    }
+
+    public Department companion(Companion companion) {
+        this.setCompanion(companion);
+        return this;
+    }
+
+    public void setCompanion(Companion companion) {
+        this.companion = companion;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

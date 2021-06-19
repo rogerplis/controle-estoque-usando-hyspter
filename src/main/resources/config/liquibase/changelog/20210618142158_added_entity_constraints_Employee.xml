@@ -14,6 +14,18 @@
                                  referencedColumnNames="id"
                                  referencedTableName="employee"/>
 
+        <addForeignKeyConstraint baseColumnNames="employee_id"
+                                 baseTableName="rel_employee__journey"
+                                 constraintName="fk_rel_employee__journey__employee_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="employee"/>
+
+        <addForeignKeyConstraint baseColumnNames="journey_id"
+                                 baseTableName="rel_employee__journey"
+                                 constraintName="fk_rel_employee__journey__journey_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="journey"/>
+
         <addForeignKeyConstraint baseColumnNames="department_id"
                                  baseTableName="employee"
                                  constraintName="fk_employee__department_id"

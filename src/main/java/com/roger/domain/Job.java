@@ -2,6 +2,7 @@ package com.roger.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -26,6 +27,15 @@ public class Job implements Serializable {
     @Column(name = "job_title")
     private String jobTitle;
 
+    @Column(name = "hire_date")
+    private LocalDate hireDate;
+
+    @Column(name = "salary")
+    private Long salary;
+
+    @Column(name = "commission_pct")
+    private Long commissionPct;
+
     @Column(name = "min_salary")
     private Long minSalary;
 
@@ -39,7 +49,7 @@ public class Job implements Serializable {
     private Set<Task> tasks = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "jobs", "manager", "department" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "jobs", "manager", "journeys", "department" }, allowSetters = true)
     private Employee employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -67,6 +77,45 @@ public class Job implements Serializable {
 
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
+    }
+
+    public LocalDate getHireDate() {
+        return this.hireDate;
+    }
+
+    public Job hireDate(LocalDate hireDate) {
+        this.hireDate = hireDate;
+        return this;
+    }
+
+    public void setHireDate(LocalDate hireDate) {
+        this.hireDate = hireDate;
+    }
+
+    public Long getSalary() {
+        return this.salary;
+    }
+
+    public Job salary(Long salary) {
+        this.salary = salary;
+        return this;
+    }
+
+    public void setSalary(Long salary) {
+        this.salary = salary;
+    }
+
+    public Long getCommissionPct() {
+        return this.commissionPct;
+    }
+
+    public Job commissionPct(Long commissionPct) {
+        this.commissionPct = commissionPct;
+        return this;
+    }
+
+    public void setCommissionPct(Long commissionPct) {
+        this.commissionPct = commissionPct;
     }
 
     public Long getMinSalary() {
@@ -158,6 +207,9 @@ public class Job implements Serializable {
         return "Job{" +
             "id=" + getId() +
             ", jobTitle='" + getJobTitle() + "'" +
+            ", hireDate='" + getHireDate() + "'" +
+            ", salary=" + getSalary() +
+            ", commissionPct=" + getCommissionPct() +
             ", minSalary=" + getMinSalary() +
             ", maxSalary=" + getMaxSalary() +
             "}";

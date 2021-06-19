@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import * as dayjs from 'dayjs';
 
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { IJob, Job } from '../job.model';
 
 import { JobService } from './job.service';
@@ -11,6 +13,7 @@ describe('Service Tests', () => {
     let httpMock: HttpTestingController;
     let elemDefault: IJob;
     let expectedResult: IJob | IJob[] | boolean | null;
+    let currentDate: dayjs.Dayjs;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -19,10 +22,14 @@ describe('Service Tests', () => {
       expectedResult = null;
       service = TestBed.inject(JobService);
       httpMock = TestBed.inject(HttpTestingController);
+      currentDate = dayjs();
 
       elemDefault = {
         id: 0,
         jobTitle: 'AAAAAAA',
+        hireDate: currentDate,
+        salary: 0,
+        commissionPct: 0,
         minSalary: 0,
         maxSalary: 0,
       };
@@ -30,7 +37,12 @@ describe('Service Tests', () => {
 
     describe('Service methods', () => {
       it('should find an element', () => {
-        const returnedFromService = Object.assign({}, elemDefault);
+        const returnedFromService = Object.assign(
+          {
+            hireDate: currentDate.format(DATE_FORMAT),
+          },
+          elemDefault
+        );
 
         service.find(123).subscribe(resp => (expectedResult = resp.body));
 
@@ -43,11 +55,17 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
+            hireDate: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
 
-        const expected = Object.assign({}, returnedFromService);
+        const expected = Object.assign(
+          {
+            hireDate: currentDate,
+          },
+          returnedFromService
+        );
 
         service.create(new Job()).subscribe(resp => (expectedResult = resp.body));
 
@@ -61,13 +79,21 @@ describe('Service Tests', () => {
           {
             id: 1,
             jobTitle: 'BBBBBB',
+            hireDate: currentDate.format(DATE_FORMAT),
+            salary: 1,
+            commissionPct: 1,
             minSalary: 1,
             maxSalary: 1,
           },
           elemDefault
         );
 
-        const expected = Object.assign({}, returnedFromService);
+        const expected = Object.assign(
+          {
+            hireDate: currentDate,
+          },
+          returnedFromService
+        );
 
         service.update(expected).subscribe(resp => (expectedResult = resp.body));
 
@@ -80,6 +106,7 @@ describe('Service Tests', () => {
         const patchObject = Object.assign(
           {
             jobTitle: 'BBBBBB',
+            hireDate: currentDate.format(DATE_FORMAT),
             minSalary: 1,
           },
           new Job()
@@ -87,7 +114,12 @@ describe('Service Tests', () => {
 
         const returnedFromService = Object.assign(patchObject, elemDefault);
 
-        const expected = Object.assign({}, returnedFromService);
+        const expected = Object.assign(
+          {
+            hireDate: currentDate,
+          },
+          returnedFromService
+        );
 
         service.partialUpdate(patchObject).subscribe(resp => (expectedResult = resp.body));
 
@@ -101,13 +133,21 @@ describe('Service Tests', () => {
           {
             id: 1,
             jobTitle: 'BBBBBB',
+            hireDate: currentDate.format(DATE_FORMAT),
+            salary: 1,
+            commissionPct: 1,
             minSalary: 1,
             maxSalary: 1,
           },
           elemDefault
         );
 
-        const expected = Object.assign({}, returnedFromService);
+        const expected = Object.assign(
+          {
+            hireDate: currentDate,
+          },
+          returnedFromService
+        );
 
         service.query().subscribe(resp => (expectedResult = resp.body));
 
@@ -154,7 +194,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique Job to an array', () => {
-          const jobArray: IJob[] = [{ id: 123 }, { id: 456 }, { id: 36593 }];
+          const jobArray: IJob[] = [{ id: 123 }, { id: 456 }, { id: 11660 }];
           const jobCollection: IJob[] = [{ id: 123 }];
           expectedResult = service.addJobToCollectionIfMissing(jobCollection, ...jobArray);
           expect(expectedResult).toHaveLength(3);

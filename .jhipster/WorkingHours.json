@@ -1,0 +1,57 @@
+{
+  "name": "WorkingHours",
+  "fields": [
+    {
+      "fieldName": "entry",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "leavingWork",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "extraTime",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "extraTime2",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "entryRest",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "returnRest",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "dayWeek",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "day",
+      "fieldType": "Days",
+      "fieldValues": "SEGUNDA,TERCA,QUARTA,QUINTA,SEXTA,SABADO,DOMINGO"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "journey",
+      "otherEntityRelationshipName": "workinghours",
+      "relationshipName": "journey",
+      "ownerSide": true
+    }
+  ],
+  "entityTableName": "working_hours",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210619010803"
+}

@@ -1,0 +1,189 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-working-hours-heading"
+        data-cy="WorkingHoursCreateUpdateHeading"
+        jhiTranslate="controleestoquehyspterApp.workingHours.home.createOrEditLabel"
+      >
+        Create or edit a Working Hours
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.workingHours.entry" for="field_entry">Entry</label>
+          <div class="input-group">
+            <input
+              id="field_entry"
+              data-cy="entry"
+              type="text"
+              class="form-control"
+              name="entry"
+              ngbDatepicker
+              #entryDp="ngbDatepicker"
+              formControlName="entry"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="entryDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.workingHours.leavingWork" for="field_leavingWork"
+            >Leaving Work</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_leavingWork"
+              data-cy="leavingWork"
+              type="datetime-local"
+              class="form-control"
+              name="leavingWork"
+              formControlName="leavingWork"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.workingHours.extraTime" for="field_extraTime"
+            >Extra Time</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_extraTime"
+              data-cy="extraTime"
+              type="datetime-local"
+              class="form-control"
+              name="extraTime"
+              formControlName="extraTime"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.workingHours.extraTime2" for="field_extraTime2"
+            >Extra Time 2</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_extraTime2"
+              data-cy="extraTime2"
+              type="datetime-local"
+              class="form-control"
+              name="extraTime2"
+              formControlName="extraTime2"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.workingHours.entryRest" for="field_entryRest"
+            >Entry Rest</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_entryRest"
+              data-cy="entryRest"
+              type="datetime-local"
+              class="form-control"
+              name="entryRest"
+              formControlName="entryRest"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.workingHours.returnRest" for="field_returnRest"
+            >Return Rest</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_returnRest"
+              data-cy="returnRest"
+              type="datetime-local"
+              class="form-control"
+              name="returnRest"
+              formControlName="returnRest"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.workingHours.dayWeek" for="field_dayWeek"
+            >Day Week</label
+          >
+          <div class="input-group">
+            <input
+              id="field_dayWeek"
+              data-cy="dayWeek"
+              type="text"
+              class="form-control"
+              name="dayWeek"
+              ngbDatepicker
+              #dayWeekDp="ngbDatepicker"
+              formControlName="dayWeek"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="dayWeekDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.workingHours.day" for="field_day">Day</label>
+          <select class="form-control" name="day" formControlName="day" id="field_day" data-cy="day">
+            <option [ngValue]="null">{{ 'controleestoquehyspterApp.Days.null' | translate }}</option>
+            <option value="SEGUNDA">{{ 'controleestoquehyspterApp.Days.SEGUNDA' | translate }}</option>
+            <option value="TERCA">{{ 'controleestoquehyspterApp.Days.TERCA' | translate }}</option>
+            <option value="QUARTA">{{ 'controleestoquehyspterApp.Days.QUARTA' | translate }}</option>
+            <option value="QUINTA">{{ 'controleestoquehyspterApp.Days.QUINTA' | translate }}</option>
+            <option value="SEXTA">{{ 'controleestoquehyspterApp.Days.SEXTA' | translate }}</option>
+            <option value="SABADO">{{ 'controleestoquehyspterApp.Days.SABADO' | translate }}</option>
+            <option value="DOMINGO">{{ 'controleestoquehyspterApp.Days.DOMINGO' | translate }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label jhiTranslate="controleestoquehyspterApp.workingHours.journey" for="field_journeys">Journey</label>
+          <select class="form-control" id="field_journeys" data-cy="journey" multiple name="journeys" formControlName="journeys">
+            <option
+              [ngValue]="getSelectedJourney(journeyOption, editForm.get('journeys')!.value)"
+              *ngFor="let journeyOption of journeysSharedCollection; trackBy: trackJourneyById"
+            >
+              {{ journeyOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

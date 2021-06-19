@@ -1,6 +1,7 @@
 package com.roger.service.dto;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -13,6 +14,12 @@ public class JobDTO implements Serializable {
     private Long id;
 
     private String jobTitle;
+
+    private LocalDate hireDate;
+
+    private Long salary;
+
+    private Long commissionPct;
 
     private Long minSalary;
 
@@ -36,6 +43,30 @@ public class JobDTO implements Serializable {
 
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
+    }
+
+    public LocalDate getHireDate() {
+        return hireDate;
+    }
+
+    public void setHireDate(LocalDate hireDate) {
+        this.hireDate = hireDate;
+    }
+
+    public Long getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Long salary) {
+        this.salary = salary;
+    }
+
+    public Long getCommissionPct() {
+        return commissionPct;
+    }
+
+    public void setCommissionPct(Long commissionPct) {
+        this.commissionPct = commissionPct;
     }
 
     public Long getMinSalary() {
@@ -97,6 +128,9 @@ public class JobDTO implements Serializable {
         return "JobDTO{" +
             "id=" + getId() +
             ", jobTitle='" + getJobTitle() + "'" +
+            ", hireDate='" + getHireDate() + "'" +
+            ", salary=" + getSalary() +
+            ", commissionPct=" + getCommissionPct() +
             ", minSalary=" + getMinSalary() +
             ", maxSalary=" + getMaxSalary() +
             ", tasks=" + getTasks() +

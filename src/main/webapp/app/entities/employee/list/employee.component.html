@@ -45,14 +45,17 @@
           <th scope="col" jhiSortBy="phoneNumber">
             <span jhiTranslate="controleestoquehyspterApp.employee.phoneNumber">Phone Number</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="hireDate">
-            <span jhiTranslate="controleestoquehyspterApp.employee.hireDate">Hire Date</span> <fa-icon icon="sort"></fa-icon>
+          <th scope="col" jhiSortBy="cpf">
+            <span jhiTranslate="controleestoquehyspterApp.employee.cpf">Cpf</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="salary">
-            <span jhiTranslate="controleestoquehyspterApp.employee.salary">Salary</span> <fa-icon icon="sort"></fa-icon>
+          <th scope="col" jhiSortBy="pis">
+            <span jhiTranslate="controleestoquehyspterApp.employee.pis">Pis</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="commissionPct">
-            <span jhiTranslate="controleestoquehyspterApp.employee.commissionPct">Commission Pct</span> <fa-icon icon="sort"></fa-icon>
+          <th scope="col" jhiSortBy="ctps">
+            <span jhiTranslate="controleestoquehyspterApp.employee.ctps">Ctps</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="birthDate">
+            <span jhiTranslate="controleestoquehyspterApp.employee.birthDate">Birth Date</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="manager.id">
             <span jhiTranslate="controleestoquehyspterApp.employee.manager">Manager</span> <fa-icon icon="sort"></fa-icon>
@@ -72,9 +75,10 @@
           <td>{{ employee.lastName }}</td>
           <td>{{ employee.email }}</td>
           <td>{{ employee.phoneNumber }}</td>
-          <td>{{ employee.hireDate | formatMediumDatetime }}</td>
-          <td>{{ employee.salary }}</td>
-          <td>{{ employee.commissionPct }}</td>
+          <td>{{ employee.cpf }}</td>
+          <td>{{ employee.pis }}</td>
+          <td>{{ employee.ctps }}</td>
+          <td>{{ employee.birthDate | formatMediumDate }}</td>
           <td>
             <div *ngIf="employee.manager">
               <a [routerLink]="['/employee', employee.manager?.id, 'view']">{{ employee.manager?.id }}</a>

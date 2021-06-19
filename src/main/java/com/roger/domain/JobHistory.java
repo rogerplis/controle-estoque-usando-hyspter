@@ -3,7 +3,7 @@ package com.roger.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.roger.domain.enumeration.Language;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -24,10 +24,10 @@ public class JobHistory implements Serializable {
     private Long id;
 
     @Column(name = "start_date")
-    private Instant startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date")
-    private Instant endDate;
+    private LocalDate endDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "language")
@@ -38,12 +38,12 @@ public class JobHistory implements Serializable {
     @JoinColumn(unique = true)
     private Job job;
 
-    @JsonIgnoreProperties(value = { "location", "employees" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "location", "employees", "companion" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private Department department;
 
-    @JsonIgnoreProperties(value = { "jobs", "manager", "department" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "jobs", "manager", "journeys", "department" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
     private Employee employee;
@@ -62,29 +62,29 @@ public class JobHistory implements Serializable {
         return this;
     }
 
-    public Instant getStartDate() {
+    public LocalDate getStartDate() {
         return this.startDate;
     }
 
-    public JobHistory startDate(Instant startDate) {
+    public JobHistory startDate(LocalDate startDate) {
         this.startDate = startDate;
         return this;
     }
 
-    public void setStartDate(Instant startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Instant getEndDate() {
+    public LocalDate getEndDate() {
         return this.endDate;
     }
 
-    public JobHistory endDate(Instant endDate) {
+    public JobHistory endDate(LocalDate endDate) {
         this.endDate = endDate;
         return this;
     }
 
-    public void setEndDate(Instant endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

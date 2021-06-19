@@ -6,6 +6,10 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "numberAddress",
+      "fieldType": "Long"
+    },
+    {
       "fieldName": "postalCode",
       "fieldType": "String"
     },

@@ -24,6 +24,12 @@
             <a [routerLink]="['/location', department.location?.id, 'view']">{{ department.location?.id }}</a>
           </div>
         </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.department.companion">Companion</span></dt>
+        <dd>
+          <div *ngIf="department.companion">
+            <a [routerLink]="['/companion', department.companion?.id, 'view']">{{ department.companion?.id }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

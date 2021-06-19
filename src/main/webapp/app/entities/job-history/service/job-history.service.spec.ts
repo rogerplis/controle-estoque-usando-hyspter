@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import * as dayjs from 'dayjs';
 
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { Language } from 'app/entities/enumerations/language.model';
 import { IJobHistory, JobHistory } from '../job-history.model';
 
@@ -37,8 +37,8 @@ describe('Service Tests', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            startDate: currentDate.format(DATE_TIME_FORMAT),
-            endDate: currentDate.format(DATE_TIME_FORMAT),
+            startDate: currentDate.format(DATE_FORMAT),
+            endDate: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
@@ -54,8 +54,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            startDate: currentDate.format(DATE_TIME_FORMAT),
-            endDate: currentDate.format(DATE_TIME_FORMAT),
+            startDate: currentDate.format(DATE_FORMAT),
+            endDate: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
@@ -79,8 +79,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            startDate: currentDate.format(DATE_TIME_FORMAT),
-            endDate: currentDate.format(DATE_TIME_FORMAT),
+            startDate: currentDate.format(DATE_FORMAT),
+            endDate: currentDate.format(DATE_FORMAT),
             language: 'BBBBBB',
           },
           elemDefault
@@ -130,8 +130,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            startDate: currentDate.format(DATE_TIME_FORMAT),
-            endDate: currentDate.format(DATE_TIME_FORMAT),
+            startDate: currentDate.format(DATE_FORMAT),
+            endDate: currentDate.format(DATE_FORMAT),
             language: 'BBBBBB',
           },
           elemDefault

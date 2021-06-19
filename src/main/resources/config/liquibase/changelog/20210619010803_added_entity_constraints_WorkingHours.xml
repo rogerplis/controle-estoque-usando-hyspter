@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <!--
+        Added the constraints for entity WorkingHours.
+    -->
+    <changeSet id="20210619010803-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="working_hours_id"
+                                 baseTableName="rel_working_hours__journey"
+                                 constraintName="fk_rel_working_hours__journey__working_hours_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="working_hours"/>
+
+        <addForeignKeyConstraint baseColumnNames="journey_id"
+                                 baseTableName="rel_working_hours__journey"
+                                 constraintName="fk_rel_working_hours__journey__journey_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="journey"/>
+    </changeSet>
+</databaseChangeLog>

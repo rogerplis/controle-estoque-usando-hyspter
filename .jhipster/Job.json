@@ -6,6 +6,18 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "hireDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "salary",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "commissionPct",
+      "fieldType": "Long"
+    },
+    {
       "fieldName": "minSalary",
       "fieldType": "Long"
     },
@@ -33,7 +45,7 @@
   "entityTableName": "job",
   "dto": "mapstruct",
   "pagination": "pagination",
-  "service": "serviceClass",
+  "service": "serviceImpl",
   "jpaMetamodelFiltering": false,
   "fluentMethods": true,
   "readOnly": false,

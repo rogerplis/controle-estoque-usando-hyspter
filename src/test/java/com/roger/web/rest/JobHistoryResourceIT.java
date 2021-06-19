@@ -11,8 +11,8 @@ import com.roger.domain.enumeration.Language;
 import com.roger.repository.JobHistoryRepository;
 import com.roger.service.dto.JobHistoryDTO;
 import com.roger.service.mapper.JobHistoryMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -34,11 +34,11 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class JobHistoryResourceIT {
 
-    private static final Instant DEFAULT_START_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_START_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_START_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_START_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final Instant DEFAULT_END_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_END_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_END_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_END_DATE = LocalDate.now(ZoneId.systemDefault());
 
     private static final Language DEFAULT_LANGUAGE = Language.PORTUGUESE;
     private static final Language UPDATED_LANGUAGE = Language.ENGLISH;

@@ -17,6 +17,9 @@
             <column name="street_address" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="number_address" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <column name="postal_code" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -50,6 +53,7 @@
                   tableName="location">
             <column name="id" type="numeric"/>
             <column name="street_address" type="string"/>
+            <column name="number_address" type="numeric"/>
             <column name="postal_code" type="string"/>
             <column name="city" type="string"/>
             <column name="state_province" type="string"/>
