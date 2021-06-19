@@ -17,6 +17,8 @@ public class DepartmentDTO implements Serializable {
 
     private LocationDTO location;
 
+    private CompanionDTO companion;
+
     public Long getId() {
         return id;
     }
@@ -39,6 +41,14 @@ public class DepartmentDTO implements Serializable {
 
     public void setLocation(LocationDTO location) {
         this.location = location;
+    }
+
+    public CompanionDTO getCompanion() {
+        return companion;
+    }
+
+    public void setCompanion(CompanionDTO companion) {
+        this.companion = companion;
     }
 
     @Override
@@ -69,6 +79,7 @@ public class DepartmentDTO implements Serializable {
             "id=" + getId() +
             ", departmentName='" + getDepartmentName() + "'" +
             ", location=" + getLocation() +
+            ", companion=" + getCompanion() +
             "}";
     }
 }

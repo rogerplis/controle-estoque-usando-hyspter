@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import * as dayjs from 'dayjs';
 
 import { isPresent } from 'app/core/util/operators';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IEmployee, getEmployeeIdentifier } from '../employee.model';
@@ -75,13 +76,13 @@ export class EmployeeService {
 
   protected convertDateFromClient(employee: IEmployee): IEmployee {
     return Object.assign({}, employee, {
-      hireDate: employee.hireDate?.isValid() ? employee.hireDate.toJSON() : undefined,
+      birthDate: employee.birthDate?.isValid() ? employee.birthDate.format(DATE_FORMAT) : undefined,
     });
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.hireDate = res.body.hireDate ? dayjs(res.body.hireDate) : undefined;
+      res.body.birthDate = res.body.birthDate ? dayjs(res.body.birthDate) : undefined;
     }
     return res;
   }
@@ -89,7 +90,7 @@ export class EmployeeService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((employee: IEmployee) => {
-        employee.hireDate = employee.hireDate ? dayjs(employee.hireDate) : undefined;
+        employee.birthDate = employee.birthDate ? dayjs(employee.birthDate) : undefined;
       });
     }
     return res;

@@ -60,6 +60,13 @@ public class CacheConfiguration {
             createCache(cm, com.roger.domain.Job.class.getName());
             createCache(cm, com.roger.domain.Job.class.getName() + ".tasks");
             createCache(cm, com.roger.domain.JobHistory.class.getName());
+            createCache(cm, com.roger.domain.Employee.class.getName() + ".journeys");
+            createCache(cm, com.roger.domain.Companion.class.getName());
+            createCache(cm, com.roger.domain.WorkingHours.class.getName());
+            createCache(cm, com.roger.domain.WorkingHours.class.getName() + ".journeys");
+            createCache(cm, com.roger.domain.Journey.class.getName());
+            createCache(cm, com.roger.domain.Journey.class.getName() + ".employees");
+            createCache(cm, com.roger.domain.Journey.class.getName() + ".workinghours");
             // jhipster-needle-ehcache-add-entry
         };
     }

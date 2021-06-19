@@ -36,6 +36,15 @@
           <th scope="col" jhiSortBy="jobTitle">
             <span jhiTranslate="controleestoquehyspterApp.job.jobTitle">Job Title</span> <fa-icon icon="sort"></fa-icon>
           </th>
+          <th scope="col" jhiSortBy="hireDate">
+            <span jhiTranslate="controleestoquehyspterApp.job.hireDate">Hire Date</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="salary">
+            <span jhiTranslate="controleestoquehyspterApp.job.salary">Salary</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="commissionPct">
+            <span jhiTranslate="controleestoquehyspterApp.job.commissionPct">Commission Pct</span> <fa-icon icon="sort"></fa-icon>
+          </th>
           <th scope="col" jhiSortBy="minSalary">
             <span jhiTranslate="controleestoquehyspterApp.job.minSalary">Min Salary</span> <fa-icon icon="sort"></fa-icon>
           </th>
@@ -54,6 +63,9 @@
             <a [routerLink]="['/job', job.id, 'view']">{{ job.id }}</a>
           </td>
           <td>{{ job.jobTitle }}</td>
+          <td>{{ job.hireDate | formatMediumDate }}</td>
+          <td>{{ job.salary }}</td>
+          <td>{{ job.commissionPct }}</td>
           <td>{{ job.minSalary }}</td>
           <td>{{ job.maxSalary }}</td>
           <td>

@@ -2,7 +2,7 @@ package com.roger.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -39,14 +39,17 @@ public class Employee implements Serializable {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "hire_date")
-    private Instant hireDate;
+    @Column(name = "cpf")
+    private String cpf;
 
-    @Column(name = "salary")
-    private Long salary;
+    @Column(name = "pis")
+    private String pis;
 
-    @Column(name = "commission_pct")
-    private Long commissionPct;
+    @Column(name = "ctps")
+    private String ctps;
+
+    @Column(name = "birth_date")
+    private LocalDate birthDate;
 
     @OneToMany(mappedBy = "employee")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -54,14 +57,24 @@ public class Employee implements Serializable {
     private Set<Job> jobs = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "jobs", "manager", "department" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "jobs", "manager", "journeys", "department" }, allowSetters = true)
     private Employee manager;
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JoinTable(
+        name = "rel_employee__journey",
+        joinColumns = @JoinColumn(name = "employee_id"),
+        inverseJoinColumns = @JoinColumn(name = "journey_id")
+    )
+    @JsonIgnoreProperties(value = { "employees", "workinghours" }, allowSetters = true)
+    private Set<Journey> journeys = new HashSet<>();
 
     /**
      * Another side of the same relationship
      */
     @ManyToOne
-    @JsonIgnoreProperties(value = { "location", "employees" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "location", "employees", "companion" }, allowSetters = true)
     private Department department;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -130,43 +143,56 @@ public class Employee implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public Instant getHireDate() {
-        return this.hireDate;
+    public String getCpf() {
+        return this.cpf;
     }
 
-    public Employee hireDate(Instant hireDate) {
-        this.hireDate = hireDate;
+    public Employee cpf(String cpf) {
+        this.cpf = cpf;
         return this;
     }
 
-    public void setHireDate(Instant hireDate) {
-        this.hireDate = hireDate;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
-    public Long getSalary() {
-        return this.salary;
+    public String getPis() {
+        return this.pis;
     }
 
-    public Employee salary(Long salary) {
-        this.salary = salary;
+    public Employee pis(String pis) {
+        this.pis = pis;
         return this;
     }
 
-    public void setSalary(Long salary) {
-        this.salary = salary;
+    public void setPis(String pis) {
+        this.pis = pis;
     }
 
-    public Long getCommissionPct() {
-        return this.commissionPct;
+    public String getCtps() {
+        return this.ctps;
     }
 
-    public Employee commissionPct(Long commissionPct) {
-        this.commissionPct = commissionPct;
+    public Employee ctps(String ctps) {
+        this.ctps = ctps;
         return this;
     }
 
-    public void setCommissionPct(Long commissionPct) {
-        this.commissionPct = commissionPct;
+    public void setCtps(String ctps) {
+        this.ctps = ctps;
+    }
+
+    public LocalDate getBirthDate() {
+        return this.birthDate;
+    }
+
+    public Employee birthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+        return this;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
     public Set<Job> getJobs() {
@@ -213,6 +239,31 @@ public class Employee implements Serializable {
         this.manager = employee;
     }
 
+    public Set<Journey> getJourneys() {
+        return this.journeys;
+    }
+
+    public Employee journeys(Set<Journey> journeys) {
+        this.setJourneys(journeys);
+        return this;
+    }
+
+    public Employee addJourney(Journey journey) {
+        this.journeys.add(journey);
+        journey.getEmployees().add(this);
+        return this;
+    }
+
+    public Employee removeJourney(Journey journey) {
+        this.journeys.remove(journey);
+        journey.getEmployees().remove(this);
+        return this;
+    }
+
+    public void setJourneys(Set<Journey> journeys) {
+        this.journeys = journeys;
+    }
+
     public Department getDepartment() {
         return this.department;
     }
@@ -254,9 +305,10 @@ public class Employee implements Serializable {
             ", lastName='" + getLastName() + "'" +
             ", email='" + getEmail() + "'" +
             ", phoneNumber='" + getPhoneNumber() + "'" +
-            ", hireDate='" + getHireDate() + "'" +
-            ", salary=" + getSalary() +
-            ", commissionPct=" + getCommissionPct() +
+            ", cpf='" + getCpf() + "'" +
+            ", pis='" + getPis() + "'" +
+            ", ctps='" + getCtps() + "'" +
+            ", birthDate='" + getBirthDate() + "'" +
             "}";
     }
 }

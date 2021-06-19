@@ -1,11 +1,11 @@
-id;job_title;min_salary;max_salary
-1;Dynamic Operations Associate;36593;95887
-2;Central Research Assistant;69364;96146
-3;Investor Configuration Liaison;28833;38525
-4;Investor Accounts Liaison;63765;82
-5;Central Program Coordinator;91153;63563
-6;International Applications Officer;15212;26854
-7;Legacy Program Consultant;9604;77867
-8;Central Creative Coordinator;37364;108
-9;Global Optimization Architect;21485;35317
-10;Dynamic Division Facilitator;84104;80937
+id;job_title;hire_date;salary;commission_pct;min_salary;max_salary
+1;Dynamic Operations Associate;2021-06-18;95887;49592;11660;83957
+2;International Usability Orchestrator;2021-06-17;14348;28833;38525;60450
+3;Legacy Marketing Orchestrator;2021-06-18;45650;3530;36232;91153
+4;Investor Quality Architect;2021-06-18;15212;26854;75172;4706
+5;Forward Security Consultant;2021-06-18;81983;36043;37364;108
+6;Global Optimization Architect;2021-06-18;35317;19721;43568;84380
+7;Internal Data Associate;2021-06-18;34575;73927;47964;22647
+8;Dynamic Web Agent;2021-06-18;53984;24658;9938;8950
+9;National Research Analyst;2021-06-17;77855;46196;71259;29959
+10;Future Division Analyst;2021-06-18;82795;35784;76532;69808

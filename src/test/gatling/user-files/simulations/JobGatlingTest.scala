@@ -73,6 +73,9 @@ class JobGatlingTest extends Simulation {
             .body(StringBody("""{
                 "id":null
                 , "jobTitle":"SAMPLE_TEXT"
+                , "hireDate":"2020-01-01T00:00:00.000Z"
+                , "salary":null
+                , "commissionPct":null
                 , "minSalary":null
                 , "maxSalary":null
                 }""")).asJson

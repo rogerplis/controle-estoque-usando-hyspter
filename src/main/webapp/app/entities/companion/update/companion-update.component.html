@@ -1,0 +1,72 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-companion-heading"
+        data-cy="CompanionCreateUpdateHeading"
+        jhiTranslate="controleestoquehyspterApp.companion.home.createOrEditLabel"
+      >
+        Create or edit a Companion
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.companion.companyName" for="field_companyName"
+            >Company Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="companyName"
+            id="field_companyName"
+            data-cy="companyName"
+            formControlName="companyName"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.companion.cnpj" for="field_cnpj">Cnpj</label>
+          <input type="text" class="form-control" name="cnpj" id="field_cnpj" data-cy="cnpj" formControlName="cnpj" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.companion.location" for="field_location"
+            >Location</label
+          >
+          <select class="form-control" id="field_location" data-cy="location" name="location" formControlName="location">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="locationOption.id === editForm.get('location')!.value?.id ? editForm.get('location')!.value : locationOption"
+              *ngFor="let locationOption of locationsCollection; trackBy: trackLocationById"
+            >
+              {{ locationOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

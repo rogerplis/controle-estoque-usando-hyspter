@@ -2,24 +2,32 @@ package com.roger.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.roger.IntegrationTest;
 import com.roger.domain.Employee;
 import com.roger.repository.EmployeeRepository;
+import com.roger.service.EmployeeService;
 import com.roger.service.dto.EmployeeDTO;
 import com.roger.service.mapper.EmployeeMapper;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,6 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link EmployeeResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class EmployeeResourceIT {
@@ -45,14 +54,17 @@ class EmployeeResourceIT {
     private static final String DEFAULT_PHONE_NUMBER = "AAAAAAAAAA";
     private static final String UPDATED_PHONE_NUMBER = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_HIRE_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_HIRE_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_CPF = "AAAAAAAAAA";
+    private static final String UPDATED_CPF = "BBBBBBBBBB";
 
-    private static final Long DEFAULT_SALARY = 1L;
-    private static final Long UPDATED_SALARY = 2L;
+    private static final String DEFAULT_PIS = "AAAAAAAAAA";
+    private static final String UPDATED_PIS = "BBBBBBBBBB";
 
-    private static final Long DEFAULT_COMMISSION_PCT = 1L;
-    private static final Long UPDATED_COMMISSION_PCT = 2L;
+    private static final String DEFAULT_CTPS = "AAAAAAAAAA";
+    private static final String UPDATED_CTPS = "BBBBBBBBBB";
+
+    private static final LocalDate DEFAULT_BIRTH_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_BIRTH_DATE = LocalDate.now(ZoneId.systemDefault());
 
     private static final String ENTITY_API_URL = "/api/employees";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -63,8 +75,14 @@ class EmployeeResourceIT {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Mock
+    private EmployeeRepository employeeRepositoryMock;
+
     @Autowired
     private EmployeeMapper employeeMapper;
+
+    @Mock
+    private EmployeeService employeeServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -86,9 +104,10 @@ class EmployeeResourceIT {
             .lastName(DEFAULT_LAST_NAME)
             .email(DEFAULT_EMAIL)
             .phoneNumber(DEFAULT_PHONE_NUMBER)
-            .hireDate(DEFAULT_HIRE_DATE)
-            .salary(DEFAULT_SALARY)
-            .commissionPct(DEFAULT_COMMISSION_PCT);
+            .cpf(DEFAULT_CPF)
+            .pis(DEFAULT_PIS)
+            .ctps(DEFAULT_CTPS)
+            .birthDate(DEFAULT_BIRTH_DATE);
         return employee;
     }
 
@@ -104,9 +123,10 @@ class EmployeeResourceIT {
             .lastName(UPDATED_LAST_NAME)
             .email(UPDATED_EMAIL)
             .phoneNumber(UPDATED_PHONE_NUMBER)
-            .hireDate(UPDATED_HIRE_DATE)
-            .salary(UPDATED_SALARY)
-            .commissionPct(UPDATED_COMMISSION_PCT);
+            .cpf(UPDATED_CPF)
+            .pis(UPDATED_PIS)
+            .ctps(UPDATED_CTPS)
+            .birthDate(UPDATED_BIRTH_DATE);
         return employee;
     }
 
@@ -133,9 +153,10 @@ class EmployeeResourceIT {
         assertThat(testEmployee.getLastName()).isEqualTo(DEFAULT_LAST_NAME);
         assertThat(testEmployee.getEmail()).isEqualTo(DEFAULT_EMAIL);
         assertThat(testEmployee.getPhoneNumber()).isEqualTo(DEFAULT_PHONE_NUMBER);
-        assertThat(testEmployee.getHireDate()).isEqualTo(DEFAULT_HIRE_DATE);
-        assertThat(testEmployee.getSalary()).isEqualTo(DEFAULT_SALARY);
-        assertThat(testEmployee.getCommissionPct()).isEqualTo(DEFAULT_COMMISSION_PCT);
+        assertThat(testEmployee.getCpf()).isEqualTo(DEFAULT_CPF);
+        assertThat(testEmployee.getPis()).isEqualTo(DEFAULT_PIS);
+        assertThat(testEmployee.getCtps()).isEqualTo(DEFAULT_CTPS);
+        assertThat(testEmployee.getBirthDate()).isEqualTo(DEFAULT_BIRTH_DATE);
     }
 
     @Test
@@ -173,9 +194,28 @@ class EmployeeResourceIT {
             .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LAST_NAME)))
             .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
             .andExpect(jsonPath("$.[*].phoneNumber").value(hasItem(DEFAULT_PHONE_NUMBER)))
-            .andExpect(jsonPath("$.[*].hireDate").value(hasItem(DEFAULT_HIRE_DATE.toString())))
-            .andExpect(jsonPath("$.[*].salary").value(hasItem(DEFAULT_SALARY.intValue())))
-            .andExpect(jsonPath("$.[*].commissionPct").value(hasItem(DEFAULT_COMMISSION_PCT.intValue())));
+            .andExpect(jsonPath("$.[*].cpf").value(hasItem(DEFAULT_CPF)))
+            .andExpect(jsonPath("$.[*].pis").value(hasItem(DEFAULT_PIS)))
+            .andExpect(jsonPath("$.[*].ctps").value(hasItem(DEFAULT_CTPS)))
+            .andExpect(jsonPath("$.[*].birthDate").value(hasItem(DEFAULT_BIRTH_DATE.toString())));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllEmployeesWithEagerRelationshipsIsEnabled() throws Exception {
+        when(employeeServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restEmployeeMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(employeeServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllEmployeesWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(employeeServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restEmployeeMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(employeeServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test
@@ -194,9 +234,10 @@ class EmployeeResourceIT {
             .andExpect(jsonPath("$.lastName").value(DEFAULT_LAST_NAME))
             .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
             .andExpect(jsonPath("$.phoneNumber").value(DEFAULT_PHONE_NUMBER))
-            .andExpect(jsonPath("$.hireDate").value(DEFAULT_HIRE_DATE.toString()))
-            .andExpect(jsonPath("$.salary").value(DEFAULT_SALARY.intValue()))
-            .andExpect(jsonPath("$.commissionPct").value(DEFAULT_COMMISSION_PCT.intValue()));
+            .andExpect(jsonPath("$.cpf").value(DEFAULT_CPF))
+            .andExpect(jsonPath("$.pis").value(DEFAULT_PIS))
+            .andExpect(jsonPath("$.ctps").value(DEFAULT_CTPS))
+            .andExpect(jsonPath("$.birthDate").value(DEFAULT_BIRTH_DATE.toString()));
     }
 
     @Test
@@ -223,9 +264,10 @@ class EmployeeResourceIT {
             .lastName(UPDATED_LAST_NAME)
             .email(UPDATED_EMAIL)
             .phoneNumber(UPDATED_PHONE_NUMBER)
-            .hireDate(UPDATED_HIRE_DATE)
-            .salary(UPDATED_SALARY)
-            .commissionPct(UPDATED_COMMISSION_PCT);
+            .cpf(UPDATED_CPF)
+            .pis(UPDATED_PIS)
+            .ctps(UPDATED_CTPS)
+            .birthDate(UPDATED_BIRTH_DATE);
         EmployeeDTO employeeDTO = employeeMapper.toDto(updatedEmployee);
 
         restEmployeeMockMvc
@@ -244,9 +286,10 @@ class EmployeeResourceIT {
         assertThat(testEmployee.getLastName()).isEqualTo(UPDATED_LAST_NAME);
         assertThat(testEmployee.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testEmployee.getPhoneNumber()).isEqualTo(UPDATED_PHONE_NUMBER);
-        assertThat(testEmployee.getHireDate()).isEqualTo(UPDATED_HIRE_DATE);
-        assertThat(testEmployee.getSalary()).isEqualTo(UPDATED_SALARY);
-        assertThat(testEmployee.getCommissionPct()).isEqualTo(UPDATED_COMMISSION_PCT);
+        assertThat(testEmployee.getCpf()).isEqualTo(UPDATED_CPF);
+        assertThat(testEmployee.getPis()).isEqualTo(UPDATED_PIS);
+        assertThat(testEmployee.getCtps()).isEqualTo(UPDATED_CTPS);
+        assertThat(testEmployee.getBirthDate()).isEqualTo(UPDATED_BIRTH_DATE);
     }
 
     @Test
@@ -331,7 +374,8 @@ class EmployeeResourceIT {
             .lastName(UPDATED_LAST_NAME)
             .email(UPDATED_EMAIL)
             .phoneNumber(UPDATED_PHONE_NUMBER)
-            .salary(UPDATED_SALARY);
+            .pis(UPDATED_PIS)
+            .birthDate(UPDATED_BIRTH_DATE);
 
         restEmployeeMockMvc
             .perform(
@@ -349,9 +393,10 @@ class EmployeeResourceIT {
         assertThat(testEmployee.getLastName()).isEqualTo(UPDATED_LAST_NAME);
         assertThat(testEmployee.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testEmployee.getPhoneNumber()).isEqualTo(UPDATED_PHONE_NUMBER);
-        assertThat(testEmployee.getHireDate()).isEqualTo(DEFAULT_HIRE_DATE);
-        assertThat(testEmployee.getSalary()).isEqualTo(UPDATED_SALARY);
-        assertThat(testEmployee.getCommissionPct()).isEqualTo(DEFAULT_COMMISSION_PCT);
+        assertThat(testEmployee.getCpf()).isEqualTo(DEFAULT_CPF);
+        assertThat(testEmployee.getPis()).isEqualTo(UPDATED_PIS);
+        assertThat(testEmployee.getCtps()).isEqualTo(DEFAULT_CTPS);
+        assertThat(testEmployee.getBirthDate()).isEqualTo(UPDATED_BIRTH_DATE);
     }
 
     @Test
@@ -371,9 +416,10 @@ class EmployeeResourceIT {
             .lastName(UPDATED_LAST_NAME)
             .email(UPDATED_EMAIL)
             .phoneNumber(UPDATED_PHONE_NUMBER)
-            .hireDate(UPDATED_HIRE_DATE)
-            .salary(UPDATED_SALARY)
-            .commissionPct(UPDATED_COMMISSION_PCT);
+            .cpf(UPDATED_CPF)
+            .pis(UPDATED_PIS)
+            .ctps(UPDATED_CTPS)
+            .birthDate(UPDATED_BIRTH_DATE);
 
         restEmployeeMockMvc
             .perform(
@@ -391,9 +437,10 @@ class EmployeeResourceIT {
         assertThat(testEmployee.getLastName()).isEqualTo(UPDATED_LAST_NAME);
         assertThat(testEmployee.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testEmployee.getPhoneNumber()).isEqualTo(UPDATED_PHONE_NUMBER);
-        assertThat(testEmployee.getHireDate()).isEqualTo(UPDATED_HIRE_DATE);
-        assertThat(testEmployee.getSalary()).isEqualTo(UPDATED_SALARY);
-        assertThat(testEmployee.getCommissionPct()).isEqualTo(UPDATED_COMMISSION_PCT);
+        assertThat(testEmployee.getCpf()).isEqualTo(UPDATED_CPF);
+        assertThat(testEmployee.getPis()).isEqualTo(UPDATED_PIS);
+        assertThat(testEmployee.getCtps()).isEqualTo(UPDATED_CTPS);
+        assertThat(testEmployee.getBirthDate()).isEqualTo(UPDATED_BIRTH_DATE);
     }
 
     @Test

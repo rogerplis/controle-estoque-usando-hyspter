@@ -2,7 +2,7 @@ package com.roger.service.dto;
 
 import com.roger.domain.enumeration.Language;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -12,9 +12,9 @@ public class JobHistoryDTO implements Serializable {
 
     private Long id;
 
-    private Instant startDate;
+    private LocalDate startDate;
 
-    private Instant endDate;
+    private LocalDate endDate;
 
     private Language language;
 
@@ -32,19 +32,19 @@ public class JobHistoryDTO implements Serializable {
         this.id = id;
     }
 
-    public Instant getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Instant startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Instant getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Instant endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

@@ -21,31 +21,41 @@
           <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.jobHistory.startDate" for="field_startDate"
             >Start Date</label
           >
-          <div class="d-flex">
+          <div class="input-group">
             <input
               id="field_startDate"
               data-cy="startDate"
-              type="datetime-local"
+              type="text"
               class="form-control"
               name="startDate"
+              ngbDatepicker
+              #startDateDp="ngbDatepicker"
               formControlName="startDate"
-              placeholder="YYYY-MM-DD HH:mm"
             />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="startDateDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
           </div>
         </div>
 
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.jobHistory.endDate" for="field_endDate">End Date</label>
-          <div class="d-flex">
+          <div class="input-group">
             <input
               id="field_endDate"
               data-cy="endDate"
-              type="datetime-local"
+              type="text"
               class="form-control"
               name="endDate"
+              ngbDatepicker
+              #endDateDp="ngbDatepicker"
               formControlName="endDate"
-              placeholder="YYYY-MM-DD HH:mm"
             />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="endDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+            </span>
           </div>
         </div>
 

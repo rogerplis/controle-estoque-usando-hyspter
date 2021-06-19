@@ -44,6 +44,21 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'controleestoquehyspterApp.jobHistory.home.title' },
         loadChildren: () => import('./job-history/job-history.module').then(m => m.JobHistoryModule),
       },
+      {
+        path: 'companion',
+        data: { pageTitle: 'controleestoquehyspterApp.companion.home.title' },
+        loadChildren: () => import('./companion/companion.module').then(m => m.CompanionModule),
+      },
+      {
+        path: 'working-hours',
+        data: { pageTitle: 'controleestoquehyspterApp.workingHours.home.title' },
+        loadChildren: () => import('./working-hours/working-hours.module').then(m => m.WorkingHoursModule),
+      },
+      {
+        path: 'journey',
+        data: { pageTitle: 'controleestoquehyspterApp.journey.home.title' },
+        loadChildren: () => import('./journey/journey.module').then(m => m.JourneyModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

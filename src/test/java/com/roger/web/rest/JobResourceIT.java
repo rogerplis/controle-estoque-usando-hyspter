@@ -12,6 +12,8 @@ import com.roger.repository.JobRepository;
 import com.roger.service.JobService;
 import com.roger.service.dto.JobDTO;
 import com.roger.service.mapper.JobMapper;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -42,6 +44,15 @@ class JobResourceIT {
 
     private static final String DEFAULT_JOB_TITLE = "AAAAAAAAAA";
     private static final String UPDATED_JOB_TITLE = "BBBBBBBBBB";
+
+    private static final LocalDate DEFAULT_HIRE_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_HIRE_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final Long DEFAULT_SALARY = 1L;
+    private static final Long UPDATED_SALARY = 2L;
+
+    private static final Long DEFAULT_COMMISSION_PCT = 1L;
+    private static final Long UPDATED_COMMISSION_PCT = 2L;
 
     private static final Long DEFAULT_MIN_SALARY = 1L;
     private static final Long UPDATED_MIN_SALARY = 2L;
@@ -82,7 +93,13 @@ class JobResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Job createEntity(EntityManager em) {
-        Job job = new Job().jobTitle(DEFAULT_JOB_TITLE).minSalary(DEFAULT_MIN_SALARY).maxSalary(DEFAULT_MAX_SALARY);
+        Job job = new Job()
+            .jobTitle(DEFAULT_JOB_TITLE)
+            .hireDate(DEFAULT_HIRE_DATE)
+            .salary(DEFAULT_SALARY)
+            .commissionPct(DEFAULT_COMMISSION_PCT)
+            .minSalary(DEFAULT_MIN_SALARY)
+            .maxSalary(DEFAULT_MAX_SALARY);
         return job;
     }
 
@@ -93,7 +110,13 @@ class JobResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Job createUpdatedEntity(EntityManager em) {
-        Job job = new Job().jobTitle(UPDATED_JOB_TITLE).minSalary(UPDATED_MIN_SALARY).maxSalary(UPDATED_MAX_SALARY);
+        Job job = new Job()
+            .jobTitle(UPDATED_JOB_TITLE)
+            .hireDate(UPDATED_HIRE_DATE)
+            .salary(UPDATED_SALARY)
+            .commissionPct(UPDATED_COMMISSION_PCT)
+            .minSalary(UPDATED_MIN_SALARY)
+            .maxSalary(UPDATED_MAX_SALARY);
         return job;
     }
 
@@ -117,6 +140,9 @@ class JobResourceIT {
         assertThat(jobList).hasSize(databaseSizeBeforeCreate + 1);
         Job testJob = jobList.get(jobList.size() - 1);
         assertThat(testJob.getJobTitle()).isEqualTo(DEFAULT_JOB_TITLE);
+        assertThat(testJob.getHireDate()).isEqualTo(DEFAULT_HIRE_DATE);
+        assertThat(testJob.getSalary()).isEqualTo(DEFAULT_SALARY);
+        assertThat(testJob.getCommissionPct()).isEqualTo(DEFAULT_COMMISSION_PCT);
         assertThat(testJob.getMinSalary()).isEqualTo(DEFAULT_MIN_SALARY);
         assertThat(testJob.getMaxSalary()).isEqualTo(DEFAULT_MAX_SALARY);
     }
@@ -153,6 +179,9 @@ class JobResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(job.getId().intValue())))
             .andExpect(jsonPath("$.[*].jobTitle").value(hasItem(DEFAULT_JOB_TITLE)))
+            .andExpect(jsonPath("$.[*].hireDate").value(hasItem(DEFAULT_HIRE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].salary").value(hasItem(DEFAULT_SALARY.intValue())))
+            .andExpect(jsonPath("$.[*].commissionPct").value(hasItem(DEFAULT_COMMISSION_PCT.intValue())))
             .andExpect(jsonPath("$.[*].minSalary").value(hasItem(DEFAULT_MIN_SALARY.intValue())))
             .andExpect(jsonPath("$.[*].maxSalary").value(hasItem(DEFAULT_MAX_SALARY.intValue())));
     }
@@ -188,6 +217,9 @@ class JobResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(job.getId().intValue()))
             .andExpect(jsonPath("$.jobTitle").value(DEFAULT_JOB_TITLE))
+            .andExpect(jsonPath("$.hireDate").value(DEFAULT_HIRE_DATE.toString()))
+            .andExpect(jsonPath("$.salary").value(DEFAULT_SALARY.intValue()))
+            .andExpect(jsonPath("$.commissionPct").value(DEFAULT_COMMISSION_PCT.intValue()))
             .andExpect(jsonPath("$.minSalary").value(DEFAULT_MIN_SALARY.intValue()))
             .andExpect(jsonPath("$.maxSalary").value(DEFAULT_MAX_SALARY.intValue()));
     }
@@ -211,7 +243,13 @@ class JobResourceIT {
         Job updatedJob = jobRepository.findById(job.getId()).get();
         // Disconnect from session so that the updates on updatedJob are not directly saved in db
         em.detach(updatedJob);
-        updatedJob.jobTitle(UPDATED_JOB_TITLE).minSalary(UPDATED_MIN_SALARY).maxSalary(UPDATED_MAX_SALARY);
+        updatedJob
+            .jobTitle(UPDATED_JOB_TITLE)
+            .hireDate(UPDATED_HIRE_DATE)
+            .salary(UPDATED_SALARY)
+            .commissionPct(UPDATED_COMMISSION_PCT)
+            .minSalary(UPDATED_MIN_SALARY)
+            .maxSalary(UPDATED_MAX_SALARY);
         JobDTO jobDTO = jobMapper.toDto(updatedJob);
 
         restJobMockMvc
@@ -227,6 +265,9 @@ class JobResourceIT {
         assertThat(jobList).hasSize(databaseSizeBeforeUpdate);
         Job testJob = jobList.get(jobList.size() - 1);
         assertThat(testJob.getJobTitle()).isEqualTo(UPDATED_JOB_TITLE);
+        assertThat(testJob.getHireDate()).isEqualTo(UPDATED_HIRE_DATE);
+        assertThat(testJob.getSalary()).isEqualTo(UPDATED_SALARY);
+        assertThat(testJob.getCommissionPct()).isEqualTo(UPDATED_COMMISSION_PCT);
         assertThat(testJob.getMinSalary()).isEqualTo(UPDATED_MIN_SALARY);
         assertThat(testJob.getMaxSalary()).isEqualTo(UPDATED_MAX_SALARY);
     }
@@ -308,7 +349,7 @@ class JobResourceIT {
         Job partialUpdatedJob = new Job();
         partialUpdatedJob.setId(job.getId());
 
-        partialUpdatedJob.jobTitle(UPDATED_JOB_TITLE).minSalary(UPDATED_MIN_SALARY);
+        partialUpdatedJob.jobTitle(UPDATED_JOB_TITLE).hireDate(UPDATED_HIRE_DATE).minSalary(UPDATED_MIN_SALARY);
 
         restJobMockMvc
             .perform(
@@ -323,6 +364,9 @@ class JobResourceIT {
         assertThat(jobList).hasSize(databaseSizeBeforeUpdate);
         Job testJob = jobList.get(jobList.size() - 1);
         assertThat(testJob.getJobTitle()).isEqualTo(UPDATED_JOB_TITLE);
+        assertThat(testJob.getHireDate()).isEqualTo(UPDATED_HIRE_DATE);
+        assertThat(testJob.getSalary()).isEqualTo(DEFAULT_SALARY);
+        assertThat(testJob.getCommissionPct()).isEqualTo(DEFAULT_COMMISSION_PCT);
         assertThat(testJob.getMinSalary()).isEqualTo(UPDATED_MIN_SALARY);
         assertThat(testJob.getMaxSalary()).isEqualTo(DEFAULT_MAX_SALARY);
     }
@@ -339,7 +383,13 @@ class JobResourceIT {
         Job partialUpdatedJob = new Job();
         partialUpdatedJob.setId(job.getId());
 
-        partialUpdatedJob.jobTitle(UPDATED_JOB_TITLE).minSalary(UPDATED_MIN_SALARY).maxSalary(UPDATED_MAX_SALARY);
+        partialUpdatedJob
+            .jobTitle(UPDATED_JOB_TITLE)
+            .hireDate(UPDATED_HIRE_DATE)
+            .salary(UPDATED_SALARY)
+            .commissionPct(UPDATED_COMMISSION_PCT)
+            .minSalary(UPDATED_MIN_SALARY)
+            .maxSalary(UPDATED_MAX_SALARY);
 
         restJobMockMvc
             .perform(
@@ -354,6 +404,9 @@ class JobResourceIT {
         assertThat(jobList).hasSize(databaseSizeBeforeUpdate);
         Job testJob = jobList.get(jobList.size() - 1);
         assertThat(testJob.getJobTitle()).isEqualTo(UPDATED_JOB_TITLE);
+        assertThat(testJob.getHireDate()).isEqualTo(UPDATED_HIRE_DATE);
+        assertThat(testJob.getSalary()).isEqualTo(UPDATED_SALARY);
+        assertThat(testJob.getCommissionPct()).isEqualTo(UPDATED_COMMISSION_PCT);
         assertThat(testJob.getMinSalary()).isEqualTo(UPDATED_MIN_SALARY);
         assertThat(testJob.getMaxSalary()).isEqualTo(UPDATED_MAX_SALARY);
     }

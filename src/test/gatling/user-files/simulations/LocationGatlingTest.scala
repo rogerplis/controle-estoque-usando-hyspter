@@ -73,6 +73,7 @@ class LocationGatlingTest extends Simulation {
             .body(StringBody("""{
                 "id":null
                 , "streetAddress":"SAMPLE_TEXT"
+                , "numberAddress":null
                 , "postalCode":"SAMPLE_TEXT"
                 , "city":"SAMPLE_TEXT"
                 , "stateProvince":"SAMPLE_TEXT"

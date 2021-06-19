@@ -5,9 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import * as dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
-
 import { IJobHistory, JobHistory } from '../job-history.model';
 import { JobHistoryService } from '../service/job-history.service';
 import { IJob } from 'app/entities/job/job.model';
@@ -49,12 +46,6 @@ export class JobHistoryUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ jobHistory }) => {
-      if (jobHistory.id === undefined) {
-        const today = dayjs().startOf('day');
-        jobHistory.startDate = today;
-        jobHistory.endDate = today;
-      }
-
       this.updateForm(jobHistory);
 
       this.loadRelationshipsOptions();
@@ -109,8 +100,8 @@ export class JobHistoryUpdateComponent implements OnInit {
   protected updateForm(jobHistory: IJobHistory): void {
     this.editForm.patchValue({
       id: jobHistory.id,
-      startDate: jobHistory.startDate ? jobHistory.startDate.format(DATE_TIME_FORMAT) : null,
-      endDate: jobHistory.endDate ? jobHistory.endDate.format(DATE_TIME_FORMAT) : null,
+      startDate: jobHistory.startDate,
+      endDate: jobHistory.endDate,
       language: jobHistory.language,
       job: jobHistory.job,
       department: jobHistory.department,
@@ -157,8 +148,8 @@ export class JobHistoryUpdateComponent implements OnInit {
     return {
       ...new JobHistory(),
       id: this.editForm.get(['id'])!.value,
-      startDate: this.editForm.get(['startDate'])!.value ? dayjs(this.editForm.get(['startDate'])!.value, DATE_TIME_FORMAT) : undefined,
-      endDate: this.editForm.get(['endDate'])!.value ? dayjs(this.editForm.get(['endDate'])!.value, DATE_TIME_FORMAT) : undefined,
+      startDate: this.editForm.get(['startDate'])!.value,
+      endDate: this.editForm.get(['endDate'])!.value,
       language: this.editForm.get(['language'])!.value,
       job: this.editForm.get(['job'])!.value,
       department: this.editForm.get(['department'])!.value,

@@ -1,0 +1,56 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="journey">
+      <h2 data-cy="journeyDetailsHeading"><span jhiTranslate="controleestoquehyspterApp.journey.detail.title">Journey</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ journey.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.journey.journeyName">Journey Name</span></dt>
+        <dd>
+          <span>{{ journey.journeyName }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.journey.tolerance">Tolerance</span></dt>
+        <dd>
+          <span>{{ journey.tolerance }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.journey.startJourney">Start Journey</span></dt>
+        <dd>
+          <span>{{ journey.startJourney | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.journey.endJourney">End Journey</span></dt>
+        <dd>
+          <span>{{ journey.endJourney | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.journey.dayOut">Day Out</span></dt>
+        <dd>
+          <span>{{ journey.dayOut | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.journey.startDate">Start Date</span></dt>
+        <dd>
+          <span>{{ journey.startDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.journey.endDate">End Date</span></dt>
+        <dd>
+          <span>{{ journey.endDate | formatMediumDate }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/journey', journey.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

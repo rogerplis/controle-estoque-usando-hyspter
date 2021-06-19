@@ -19,6 +19,7 @@
       },
       "id": "ID",
       "streetAddress": "Street Address",
+      "numberAddress": "Number Address",
       "postalCode": "Postal Code",
       "city": "City",
       "stateProvince": "State Province",

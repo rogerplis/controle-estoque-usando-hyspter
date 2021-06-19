@@ -59,8 +59,8 @@
           <td>
             <a [routerLink]="['/job-history', jobHistory.id, 'view']">{{ jobHistory.id }}</a>
           </td>
-          <td>{{ jobHistory.startDate | formatMediumDatetime }}</td>
-          <td>{{ jobHistory.endDate | formatMediumDatetime }}</td>
+          <td>{{ jobHistory.startDate | formatMediumDate }}</td>
+          <td>{{ jobHistory.endDate | formatMediumDate }}</td>
           <td jhiTranslate="{{ 'controleestoquehyspterApp.Language.' + jobHistory.language }}">{{ jobHistory.language }}</td>
           <td>
             <div *ngIf="jobHistory.job">

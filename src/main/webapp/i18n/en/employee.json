@@ -22,11 +22,13 @@
       "lastName": "Last Name",
       "email": "Email",
       "phoneNumber": "Phone Number",
-      "hireDate": "Hire Date",
-      "salary": "Salary",
-      "commissionPct": "Commission Pct",
+      "cpf": "Cpf",
+      "pis": "Pis",
+      "ctps": "Ctps",
+      "birthDate": "Birth Date",
       "job": "Job",
       "manager": "Manager",
+      "journey": "Journey",
       "department": "Department",
       "help": {
         "firstName": "The firstname attribute."

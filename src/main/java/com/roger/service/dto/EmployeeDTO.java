@@ -3,8 +3,10 @@ package com.roger.service.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the {@link com.roger.domain.Employee} entity.
@@ -26,13 +28,17 @@ public class EmployeeDTO implements Serializable {
 
     private String phoneNumber;
 
-    private Instant hireDate;
+    private String cpf;
 
-    private Long salary;
+    private String pis;
 
-    private Long commissionPct;
+    private String ctps;
+
+    private LocalDate birthDate;
 
     private EmployeeDTO manager;
+
+    private Set<JourneyDTO> journeys = new HashSet<>();
 
     private DepartmentDTO department;
 
@@ -76,28 +82,36 @@ public class EmployeeDTO implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public Instant getHireDate() {
-        return hireDate;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setHireDate(Instant hireDate) {
-        this.hireDate = hireDate;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
-    public Long getSalary() {
-        return salary;
+    public String getPis() {
+        return pis;
     }
 
-    public void setSalary(Long salary) {
-        this.salary = salary;
+    public void setPis(String pis) {
+        this.pis = pis;
     }
 
-    public Long getCommissionPct() {
-        return commissionPct;
+    public String getCtps() {
+        return ctps;
     }
 
-    public void setCommissionPct(Long commissionPct) {
-        this.commissionPct = commissionPct;
+    public void setCtps(String ctps) {
+        this.ctps = ctps;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
     public EmployeeDTO getManager() {
@@ -106,6 +120,14 @@ public class EmployeeDTO implements Serializable {
 
     public void setManager(EmployeeDTO manager) {
         this.manager = manager;
+    }
+
+    public Set<JourneyDTO> getJourneys() {
+        return journeys;
+    }
+
+    public void setJourneys(Set<JourneyDTO> journeys) {
+        this.journeys = journeys;
     }
 
     public DepartmentDTO getDepartment() {
@@ -146,10 +168,12 @@ public class EmployeeDTO implements Serializable {
             ", lastName='" + getLastName() + "'" +
             ", email='" + getEmail() + "'" +
             ", phoneNumber='" + getPhoneNumber() + "'" +
-            ", hireDate='" + getHireDate() + "'" +
-            ", salary=" + getSalary() +
-            ", commissionPct=" + getCommissionPct() +
+            ", cpf='" + getCpf() + "'" +
+            ", pis='" + getPis() + "'" +
+            ", ctps='" + getCtps() + "'" +
+            ", birthDate='" + getBirthDate() + "'" +
             ", manager=" + getManager() +
+            ", journeys=" + getJourneys() +
             ", department=" + getDepartment() +
             "}";
     }

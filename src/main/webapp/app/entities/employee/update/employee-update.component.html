@@ -55,39 +55,41 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.employee.hireDate" for="field_hireDate"
-            >Hire Date</label
+          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.employee.cpf" for="field_cpf">Cpf</label>
+          <input type="text" class="form-control" name="cpf" id="field_cpf" data-cy="cpf" formControlName="cpf" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.employee.pis" for="field_pis">Pis</label>
+          <input type="text" class="form-control" name="pis" id="field_pis" data-cy="pis" formControlName="pis" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.employee.ctps" for="field_ctps">Ctps</label>
+          <input type="text" class="form-control" name="ctps" id="field_ctps" data-cy="ctps" formControlName="ctps" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.employee.birthDate" for="field_birthDate"
+            >Birth Date</label
           >
-          <div class="d-flex">
+          <div class="input-group">
             <input
-              id="field_hireDate"
-              data-cy="hireDate"
-              type="datetime-local"
+              id="field_birthDate"
+              data-cy="birthDate"
+              type="text"
               class="form-control"
-              name="hireDate"
-              formControlName="hireDate"
-              placeholder="YYYY-MM-DD HH:mm"
+              name="birthDate"
+              ngbDatepicker
+              #birthDateDp="ngbDatepicker"
+              formControlName="birthDate"
             />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="birthDateDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
           </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.employee.salary" for="field_salary">Salary</label>
-          <input type="number" class="form-control" name="salary" id="field_salary" data-cy="salary" formControlName="salary" />
-        </div>
-
-        <div class="form-group">
-          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.employee.commissionPct" for="field_commissionPct"
-            >Commission Pct</label
-          >
-          <input
-            type="number"
-            class="form-control"
-            name="commissionPct"
-            id="field_commissionPct"
-            data-cy="commissionPct"
-            formControlName="commissionPct"
-          />
         </div>
 
         <div class="form-group">
@@ -99,6 +101,18 @@
               *ngFor="let employeeOption of employeesSharedCollection; trackBy: trackEmployeeById"
             >
               {{ employeeOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label jhiTranslate="controleestoquehyspterApp.employee.journey" for="field_journeys">Journey</label>
+          <select class="form-control" id="field_journeys" data-cy="journey" multiple name="journeys" formControlName="journeys">
+            <option
+              [ngValue]="getSelectedJourney(journeyOption, editForm.get('journeys')!.value)"
+              *ngFor="let journeyOption of journeysSharedCollection; trackBy: trackJourneyById"
+            >
+              {{ journeyOption.id }}
             </option>
           </select>
         </div>

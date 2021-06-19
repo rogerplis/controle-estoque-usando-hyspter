@@ -34,6 +34,7 @@
         <tr>
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="controleestoquehyspterApp.location.streetAddress">Street Address</span></th>
+          <th scope="col"><span jhiTranslate="controleestoquehyspterApp.location.numberAddress">Number Address</span></th>
           <th scope="col"><span jhiTranslate="controleestoquehyspterApp.location.postalCode">Postal Code</span></th>
           <th scope="col"><span jhiTranslate="controleestoquehyspterApp.location.city">City</span></th>
           <th scope="col"><span jhiTranslate="controleestoquehyspterApp.location.stateProvince">State Province</span></th>
@@ -47,6 +48,7 @@
             <a [routerLink]="['/location', location.id, 'view']">{{ location.id }}</a>
           </td>
           <td>{{ location.streetAddress }}</td>
+          <td>{{ location.numberAddress }}</td>
           <td>{{ location.postalCode }}</td>
           <td>{{ location.city }}</td>
           <td>{{ location.stateProvince }}</td>

@@ -36,23 +36,34 @@
         <dd>
           <span>{{ employee.phoneNumber }}</span>
         </dd>
-        <dt><span jhiTranslate="controleestoquehyspterApp.employee.hireDate">Hire Date</span></dt>
+        <dt><span jhiTranslate="controleestoquehyspterApp.employee.cpf">Cpf</span></dt>
         <dd>
-          <span>{{ employee.hireDate | formatMediumDatetime }}</span>
+          <span>{{ employee.cpf }}</span>
         </dd>
-        <dt><span jhiTranslate="controleestoquehyspterApp.employee.salary">Salary</span></dt>
+        <dt><span jhiTranslate="controleestoquehyspterApp.employee.pis">Pis</span></dt>
         <dd>
-          <span>{{ employee.salary }}</span>
+          <span>{{ employee.pis }}</span>
         </dd>
-        <dt><span jhiTranslate="controleestoquehyspterApp.employee.commissionPct">Commission Pct</span></dt>
+        <dt><span jhiTranslate="controleestoquehyspterApp.employee.ctps">Ctps</span></dt>
         <dd>
-          <span>{{ employee.commissionPct }}</span>
+          <span>{{ employee.ctps }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.employee.birthDate">Birth Date</span></dt>
+        <dd>
+          <span>{{ employee.birthDate | formatMediumDate }}</span>
         </dd>
         <dt><span jhiTranslate="controleestoquehyspterApp.employee.manager">Manager</span></dt>
         <dd>
           <div *ngIf="employee.manager">
             <a [routerLink]="['/employee', employee.manager?.id, 'view']">{{ employee.manager?.id }}</a>
           </div>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.employee.journey">Journey</span></dt>
+        <dd>
+          <span *ngFor="let journey of employee.journeys; let last = last">
+            <a [routerLink]="['/journey', journey?.id, 'view']">{{ journey.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
         </dd>
         <dt><span jhiTranslate="controleestoquehyspterApp.employee.department">Department</span></dt>
         <dd>

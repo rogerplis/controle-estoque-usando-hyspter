@@ -9,6 +9,8 @@ import { of, Subject } from 'rxjs';
 
 import { EmployeeService } from '../service/employee.service';
 import { IEmployee, Employee } from '../employee.model';
+import { IJourney } from 'app/entities/journey/journey.model';
+import { JourneyService } from 'app/entities/journey/service/journey.service';
 import { IDepartment } from 'app/entities/department/department.model';
 import { DepartmentService } from 'app/entities/department/service/department.service';
 
@@ -20,6 +22,7 @@ describe('Component Tests', () => {
     let fixture: ComponentFixture<EmployeeUpdateComponent>;
     let activatedRoute: ActivatedRoute;
     let employeeService: EmployeeService;
+    let journeyService: JourneyService;
     let departmentService: DepartmentService;
 
     beforeEach(() => {
@@ -34,6 +37,7 @@ describe('Component Tests', () => {
       fixture = TestBed.createComponent(EmployeeUpdateComponent);
       activatedRoute = TestBed.inject(ActivatedRoute);
       employeeService = TestBed.inject(EmployeeService);
+      journeyService = TestBed.inject(JourneyService);
       departmentService = TestBed.inject(DepartmentService);
 
       comp = fixture.componentInstance;
@@ -42,10 +46,10 @@ describe('Component Tests', () => {
     describe('ngOnInit', () => {
       it('Should call Employee query and add missing value', () => {
         const employee: IEmployee = { id: 456 };
-        const manager: IEmployee = { id: 60113 };
+        const manager: IEmployee = { id: 40170 };
         employee.manager = manager;
 
-        const employeeCollection: IEmployee[] = [{ id: 40170 }];
+        const employeeCollection: IEmployee[] = [{ id: 71581 }];
         spyOn(employeeService, 'query').and.returnValue(of(new HttpResponse({ body: employeeCollection })));
         const additionalEmployees = [manager];
         const expectedCollection: IEmployee[] = [...additionalEmployees, ...employeeCollection];
@@ -57,6 +61,25 @@ describe('Component Tests', () => {
         expect(employeeService.query).toHaveBeenCalled();
         expect(employeeService.addEmployeeToCollectionIfMissing).toHaveBeenCalledWith(employeeCollection, ...additionalEmployees);
         expect(comp.employeesSharedCollection).toEqual(expectedCollection);
+      });
+
+      it('Should call Journey query and add missing value', () => {
+        const employee: IEmployee = { id: 456 };
+        const journeys: IJourney[] = [{ id: 76563 }];
+        employee.journeys = journeys;
+
+        const journeyCollection: IJourney[] = [{ id: 76582 }];
+        spyOn(journeyService, 'query').and.returnValue(of(new HttpResponse({ body: journeyCollection })));
+        const additionalJourneys = [...journeys];
+        const expectedCollection: IJourney[] = [...additionalJourneys, ...journeyCollection];
+        spyOn(journeyService, 'addJourneyToCollectionIfMissing').and.returnValue(expectedCollection);
+
+        activatedRoute.data = of({ employee });
+        comp.ngOnInit();
+
+        expect(journeyService.query).toHaveBeenCalled();
+        expect(journeyService.addJourneyToCollectionIfMissing).toHaveBeenCalledWith(journeyCollection, ...additionalJourneys);
+        expect(comp.journeysSharedCollection).toEqual(expectedCollection);
       });
 
       it('Should call Department query and add missing value', () => {
@@ -80,8 +103,10 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const employee: IEmployee = { id: 456 };
-        const manager: IEmployee = { id: 71581 };
+        const manager: IEmployee = { id: 28076 };
         employee.manager = manager;
+        const journeys: IJourney = { id: 14748 };
+        employee.journeys = [journeys];
         const department: IDepartment = { id: 72699 };
         employee.department = department;
 
@@ -90,6 +115,7 @@ describe('Component Tests', () => {
 
         expect(comp.editForm.value).toEqual(expect.objectContaining(employee));
         expect(comp.employeesSharedCollection).toContain(manager);
+        expect(comp.journeysSharedCollection).toContain(journeys);
         expect(comp.departmentsSharedCollection).toContain(department);
       });
     });
@@ -167,11 +193,47 @@ describe('Component Tests', () => {
         });
       });
 
+      describe('trackJourneyById', () => {
+        it('Should return tracked Journey primary key', () => {
+          const entity = { id: 123 };
+          const trackResult = comp.trackJourneyById(0, entity);
+          expect(trackResult).toEqual(entity.id);
+        });
+      });
+
       describe('trackDepartmentById', () => {
         it('Should return tracked Department primary key', () => {
           const entity = { id: 123 };
           const trackResult = comp.trackDepartmentById(0, entity);
           expect(trackResult).toEqual(entity.id);
+        });
+      });
+    });
+
+    describe('Getting selected relationships', () => {
+      describe('getSelectedJourney', () => {
+        it('Should return option if no Journey is selected', () => {
+          const option = { id: 123 };
+          const result = comp.getSelectedJourney(option);
+          expect(result === option).toEqual(true);
+        });
+
+        it('Should return selected Journey for according option', () => {
+          const option = { id: 123 };
+          const selected = { id: 123 };
+          const selected2 = { id: 456 };
+          const result = comp.getSelectedJourney(option, [selected2, selected]);
+          expect(result === selected).toEqual(true);
+          expect(result === selected2).toEqual(false);
+          expect(result === option).toEqual(false);
+        });
+
+        it('Should return option if this Journey is not selected', () => {
+          const option = { id: 123 };
+          const selected = { id: 456 };
+          const result = comp.getSelectedJourney(option, [selected]);
+          expect(result === option).toEqual(true);
+          expect(result === selected).toEqual(false);
         });
       });
     });

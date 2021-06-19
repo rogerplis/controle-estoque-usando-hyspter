@@ -50,10 +50,10 @@ describe('Component Tests', () => {
     describe('ngOnInit', () => {
       it('Should call job query and add missing value', () => {
         const jobHistory: IJobHistory = { id: 456 };
-        const job: IJob = { id: 95887 };
+        const job: IJob = { id: 83957 };
         jobHistory.job = job;
 
-        const jobCollection: IJob[] = [{ id: 49592 }];
+        const jobCollection: IJob[] = [{ id: 69364 }];
         spyOn(jobService, 'query').and.returnValue(of(new HttpResponse({ body: jobCollection })));
         const expectedCollection: IJob[] = [job, ...jobCollection];
         spyOn(jobService, 'addJobToCollectionIfMissing').and.returnValue(expectedCollection);
@@ -86,10 +86,10 @@ describe('Component Tests', () => {
 
       it('Should call employee query and add missing value', () => {
         const jobHistory: IJobHistory = { id: 456 };
-        const employee: IEmployee = { id: 12617 };
+        const employee: IEmployee = { id: 25834 };
         jobHistory.employee = employee;
 
-        const employeeCollection: IEmployee[] = [{ id: 25834 }];
+        const employeeCollection: IEmployee[] = [{ id: 71697 }];
         spyOn(employeeService, 'query').and.returnValue(of(new HttpResponse({ body: employeeCollection })));
         const expectedCollection: IEmployee[] = [employee, ...employeeCollection];
         spyOn(employeeService, 'addEmployeeToCollectionIfMissing').and.returnValue(expectedCollection);
@@ -104,11 +104,11 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const jobHistory: IJobHistory = { id: 456 };
-        const job: IJob = { id: 11660 };
+        const job: IJob = { id: 96146 };
         jobHistory.job = job;
         const department: IDepartment = { id: 70054 };
         jobHistory.department = department;
-        const employee: IEmployee = { id: 71697 };
+        const employee: IEmployee = { id: 45464 };
         jobHistory.employee = employee;
 
         activatedRoute.data = of({ jobHistory });

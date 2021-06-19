@@ -21,6 +21,12 @@
       "otherEntityRelationshipName": "department",
       "javadoc": "A relationship",
       "relationshipName": "employee"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "companion",
+      "otherEntityRelationshipName": "department",
+      "relationshipName": "companion"
     }
   ],
   "entityTableName": "department",

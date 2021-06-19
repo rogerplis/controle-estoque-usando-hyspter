@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="companion">
+      <h2 data-cy="companionDetailsHeading"><span jhiTranslate="controleestoquehyspterApp.companion.detail.title">Companion</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ companion.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.companion.companyName">Company Name</span></dt>
+        <dd>
+          <span>{{ companion.companyName }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.companion.cnpj">Cnpj</span></dt>
+        <dd>
+          <span>{{ companion.cnpj }}</span>
+        </dd>
+        <dt><span jhiTranslate="controleestoquehyspterApp.companion.location">Location</span></dt>
+        <dd>
+          <div *ngIf="companion.location">
+            <a [routerLink]="['/location', companion.location?.id, 'view']">{{ companion.location?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/companion', companion.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

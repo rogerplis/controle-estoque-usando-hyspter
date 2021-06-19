@@ -11,6 +11,8 @@ import { DepartmentService } from '../service/department.service';
 import { IDepartment, Department } from '../department.model';
 import { ILocation } from 'app/entities/location/location.model';
 import { LocationService } from 'app/entities/location/service/location.service';
+import { ICompanion } from 'app/entities/companion/companion.model';
+import { CompanionService } from 'app/entities/companion/service/companion.service';
 
 import { DepartmentUpdateComponent } from './department-update.component';
 
@@ -21,6 +23,7 @@ describe('Component Tests', () => {
     let activatedRoute: ActivatedRoute;
     let departmentService: DepartmentService;
     let locationService: LocationService;
+    let companionService: CompanionService;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -35,6 +38,7 @@ describe('Component Tests', () => {
       activatedRoute = TestBed.inject(ActivatedRoute);
       departmentService = TestBed.inject(DepartmentService);
       locationService = TestBed.inject(LocationService);
+      companionService = TestBed.inject(CompanionService);
 
       comp = fixture.componentInstance;
     });
@@ -42,10 +46,10 @@ describe('Component Tests', () => {
     describe('ngOnInit', () => {
       it('Should call location query and add missing value', () => {
         const department: IDepartment = { id: 456 };
-        const location: ILocation = { id: 3491 };
+        const location: ILocation = { id: 44189 };
         department.location = location;
 
-        const locationCollection: ILocation[] = [{ id: 44189 }];
+        const locationCollection: ILocation[] = [{ id: 80998 }];
         spyOn(locationService, 'query').and.returnValue(of(new HttpResponse({ body: locationCollection })));
         const expectedCollection: ILocation[] = [location, ...locationCollection];
         spyOn(locationService, 'addLocationToCollectionIfMissing').and.returnValue(expectedCollection);
@@ -58,16 +62,38 @@ describe('Component Tests', () => {
         expect(comp.locationsCollection).toEqual(expectedCollection);
       });
 
+      it('Should call Companion query and add missing value', () => {
+        const department: IDepartment = { id: 456 };
+        const companion: ICompanion = { id: 57760 };
+        department.companion = companion;
+
+        const companionCollection: ICompanion[] = [{ id: 60592 }];
+        spyOn(companionService, 'query').and.returnValue(of(new HttpResponse({ body: companionCollection })));
+        const additionalCompanions = [companion];
+        const expectedCollection: ICompanion[] = [...additionalCompanions, ...companionCollection];
+        spyOn(companionService, 'addCompanionToCollectionIfMissing').and.returnValue(expectedCollection);
+
+        activatedRoute.data = of({ department });
+        comp.ngOnInit();
+
+        expect(companionService.query).toHaveBeenCalled();
+        expect(companionService.addCompanionToCollectionIfMissing).toHaveBeenCalledWith(companionCollection, ...additionalCompanions);
+        expect(comp.companionsSharedCollection).toEqual(expectedCollection);
+      });
+
       it('Should update editForm', () => {
         const department: IDepartment = { id: 456 };
-        const location: ILocation = { id: 80998 };
+        const location: ILocation = { id: 53804 };
         department.location = location;
+        const companion: ICompanion = { id: 34924 };
+        department.companion = companion;
 
         activatedRoute.data = of({ department });
         comp.ngOnInit();
 
         expect(comp.editForm.value).toEqual(expect.objectContaining(department));
         expect(comp.locationsCollection).toContain(location);
+        expect(comp.companionsSharedCollection).toContain(companion);
       });
     });
 
@@ -140,6 +166,14 @@ describe('Component Tests', () => {
         it('Should return tracked Location primary key', () => {
           const entity = { id: 123 };
           const trackResult = comp.trackLocationById(0, entity);
+          expect(trackResult).toEqual(entity.id);
+        });
+      });
+
+      describe('trackCompanionById', () => {
+        it('Should return tracked Companion primary key', () => {
+          const entity = { id: 123 };
+          const trackResult = comp.trackCompanionById(0, entity);
           expect(trackResult).toEqual(entity.id);
         });
       });

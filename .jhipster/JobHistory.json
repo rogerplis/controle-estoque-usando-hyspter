@@ -3,11 +3,11 @@
   "fields": [
     {
       "fieldName": "startDate",
-      "fieldType": "Instant"
+      "fieldType": "LocalDate"
     },
     {
       "fieldName": "endDate",
-      "fieldType": "Instant"
+      "fieldType": "LocalDate"
     },
     {
       "fieldName": "language",

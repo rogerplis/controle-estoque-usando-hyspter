@@ -58,6 +58,21 @@
             </option>
           </select>
         </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.department.companion" for="field_companion"
+            >Companion</label
+          >
+          <select class="form-control" id="field_companion" data-cy="companion" name="companion" formControlName="companion">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="companionOption.id === editForm.get('companion')!.value?.id ? editForm.get('companion')!.value : companionOption"
+              *ngFor="let companionOption of companionsSharedCollection; trackBy: trackCompanionById"
+            >
+              {{ companionOption.id }}
+            </option>
+          </select>
+        </div>
       </div>
 
       <div>

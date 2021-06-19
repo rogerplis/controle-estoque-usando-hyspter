@@ -9,6 +9,8 @@ import { IDepartment, Department } from '../department.model';
 import { DepartmentService } from '../service/department.service';
 import { ILocation } from 'app/entities/location/location.model';
 import { LocationService } from 'app/entities/location/service/location.service';
+import { ICompanion } from 'app/entities/companion/companion.model';
+import { CompanionService } from 'app/entities/companion/service/companion.service';
 
 @Component({
   selector: 'jhi-department-update',
@@ -18,16 +20,19 @@ export class DepartmentUpdateComponent implements OnInit {
   isSaving = false;
 
   locationsCollection: ILocation[] = [];
+  companionsSharedCollection: ICompanion[] = [];
 
   editForm = this.fb.group({
     id: [],
     departmentName: [null, [Validators.required]],
     location: [],
+    companion: [],
   });
 
   constructor(
     protected departmentService: DepartmentService,
     protected locationService: LocationService,
+    protected companionService: CompanionService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -58,6 +63,10 @@ export class DepartmentUpdateComponent implements OnInit {
     return item.id!;
   }
 
+  trackCompanionById(index: number, item: ICompanion): number {
+    return item.id!;
+  }
+
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IDepartment>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
       () => this.onSaveSuccess(),
@@ -82,9 +91,14 @@ export class DepartmentUpdateComponent implements OnInit {
       id: department.id,
       departmentName: department.departmentName,
       location: department.location,
+      companion: department.companion,
     });
 
     this.locationsCollection = this.locationService.addLocationToCollectionIfMissing(this.locationsCollection, department.location);
+    this.companionsSharedCollection = this.companionService.addCompanionToCollectionIfMissing(
+      this.companionsSharedCollection,
+      department.companion
+    );
   }
 
   protected loadRelationshipsOptions(): void {
@@ -97,6 +111,16 @@ export class DepartmentUpdateComponent implements OnInit {
         )
       )
       .subscribe((locations: ILocation[]) => (this.locationsCollection = locations));
+
+    this.companionService
+      .query()
+      .pipe(map((res: HttpResponse<ICompanion[]>) => res.body ?? []))
+      .pipe(
+        map((companions: ICompanion[]) =>
+          this.companionService.addCompanionToCollectionIfMissing(companions, this.editForm.get('companion')!.value)
+        )
+      )
+      .subscribe((companions: ICompanion[]) => (this.companionsSharedCollection = companions));
   }
 
   protected createFromForm(): IDepartment {
@@ -105,6 +129,7 @@ export class DepartmentUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       departmentName: this.editForm.get(['departmentName'])!.value,
       location: this.editForm.get(['location'])!.value,
+      companion: this.editForm.get(['companion'])!.value,
     };
   }
 }

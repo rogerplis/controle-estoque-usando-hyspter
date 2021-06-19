@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import * as dayjs from 'dayjs';
 
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { IEmployee, Employee } from '../employee.model';
 
 import { EmployeeService } from './employee.service';
@@ -30,9 +30,10 @@ describe('Service Tests', () => {
         lastName: 'AAAAAAA',
         email: 'AAAAAAA',
         phoneNumber: 'AAAAAAA',
-        hireDate: currentDate,
-        salary: 0,
-        commissionPct: 0,
+        cpf: 'AAAAAAA',
+        pis: 'AAAAAAA',
+        ctps: 'AAAAAAA',
+        birthDate: currentDate,
       };
     });
 
@@ -40,7 +41,7 @@ describe('Service Tests', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            hireDate: currentDate.format(DATE_TIME_FORMAT),
+            birthDate: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
@@ -56,14 +57,14 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            hireDate: currentDate.format(DATE_TIME_FORMAT),
+            birthDate: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            hireDate: currentDate,
+            birthDate: currentDate,
           },
           returnedFromService
         );
@@ -83,16 +84,17 @@ describe('Service Tests', () => {
             lastName: 'BBBBBB',
             email: 'BBBBBB',
             phoneNumber: 'BBBBBB',
-            hireDate: currentDate.format(DATE_TIME_FORMAT),
-            salary: 1,
-            commissionPct: 1,
+            cpf: 'BBBBBB',
+            pis: 'BBBBBB',
+            ctps: 'BBBBBB',
+            birthDate: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            hireDate: currentDate,
+            birthDate: currentDate,
           },
           returnedFromService
         );
@@ -111,7 +113,8 @@ describe('Service Tests', () => {
             lastName: 'BBBBBB',
             email: 'BBBBBB',
             phoneNumber: 'BBBBBB',
-            salary: 1,
+            pis: 'BBBBBB',
+            birthDate: currentDate.format(DATE_FORMAT),
           },
           new Employee()
         );
@@ -120,7 +123,7 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
-            hireDate: currentDate,
+            birthDate: currentDate,
           },
           returnedFromService
         );
@@ -140,16 +143,17 @@ describe('Service Tests', () => {
             lastName: 'BBBBBB',
             email: 'BBBBBB',
             phoneNumber: 'BBBBBB',
-            hireDate: currentDate.format(DATE_TIME_FORMAT),
-            salary: 1,
-            commissionPct: 1,
+            cpf: 'BBBBBB',
+            pis: 'BBBBBB',
+            ctps: 'BBBBBB',
+            birthDate: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            hireDate: currentDate,
+            birthDate: currentDate,
           },
           returnedFromService
         );
@@ -199,7 +203,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique Employee to an array', () => {
-          const employeeArray: IEmployee[] = [{ id: 123 }, { id: 456 }, { id: 75660 }];
+          const employeeArray: IEmployee[] = [{ id: 123 }, { id: 456 }, { id: 60113 }];
           const employeeCollection: IEmployee[] = [{ id: 123 }];
           expectedResult = service.addEmployeeToCollectionIfMissing(employeeCollection, ...employeeArray);
           expect(expectedResult).toHaveLength(3);

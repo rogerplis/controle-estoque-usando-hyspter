@@ -1,0 +1,26 @@
+{
+  "controleestoquehyspterApp": {
+    "companion": {
+      "home": {
+        "title": "Companions",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Companion",
+        "createOrEditLabel": "Crear o editar Companion",
+        "notFound": "Ningún Companions encontrado"
+      },
+      "created": "Un nuevo Companion ha sido creado con el identificador {{ param }}",
+      "updated": "Un Companion ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Companion ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Companion {{ id }}?"
+      },
+      "detail": {
+        "title": "Companion"
+      },
+      "id": "ID",
+      "companyName": "Company Name",
+      "cnpj": "Cnpj",
+      "location": "Location"
+    }
+  }
+}

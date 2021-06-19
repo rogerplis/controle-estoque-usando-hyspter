@@ -1,9 +1,13 @@
+import * as dayjs from 'dayjs';
 import { ITask } from 'app/entities/task/task.model';
 import { IEmployee } from 'app/entities/employee/employee.model';
 
 export interface IJob {
   id?: number;
   jobTitle?: string | null;
+  hireDate?: dayjs.Dayjs | null;
+  salary?: number | null;
+  commissionPct?: number | null;
   minSalary?: number | null;
   maxSalary?: number | null;
   tasks?: ITask[] | null;
@@ -14,6 +18,9 @@ export class Job implements IJob {
   constructor(
     public id?: number,
     public jobTitle?: string | null,
+    public hireDate?: dayjs.Dayjs | null,
+    public salary?: number | null,
+    public commissionPct?: number | null,
     public minSalary?: number | null,
     public maxSalary?: number | null,
     public tasks?: ITask[] | null,

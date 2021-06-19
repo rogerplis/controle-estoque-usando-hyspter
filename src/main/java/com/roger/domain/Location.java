@@ -24,6 +24,9 @@ public class Location implements Serializable {
     @Column(name = "street_address")
     private String streetAddress;
 
+    @Column(name = "number_address")
+    private Long numberAddress;
+
     @Column(name = "postal_code")
     private String postalCode;
 
@@ -63,6 +66,19 @@ public class Location implements Serializable {
 
     public void setStreetAddress(String streetAddress) {
         this.streetAddress = streetAddress;
+    }
+
+    public Long getNumberAddress() {
+        return this.numberAddress;
+    }
+
+    public Location numberAddress(Long numberAddress) {
+        this.numberAddress = numberAddress;
+        return this;
+    }
+
+    public void setNumberAddress(Long numberAddress) {
+        this.numberAddress = numberAddress;
     }
 
     public String getPostalCode() {
@@ -142,6 +158,7 @@ public class Location implements Serializable {
         return "Location{" +
             "id=" + getId() +
             ", streetAddress='" + getStreetAddress() + "'" +
+            ", numberAddress=" + getNumberAddress() +
             ", postalCode='" + getPostalCode() + "'" +
             ", city='" + getCity() + "'" +
             ", stateProvince='" + getStateProvince() + "'" +

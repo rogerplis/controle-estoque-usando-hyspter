@@ -1,0 +1,32 @@
+{
+  "controleestoquehyspterApp": {
+    "workingHours": {
+      "home": {
+        "title": "Working Hours",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Working Hours",
+        "createOrEditLabel": "Crear o editar Working Hours",
+        "notFound": "Ningún Working Hours encontrado"
+      },
+      "created": "Un nuevo Working Hours ha sido creado con el identificador {{ param }}",
+      "updated": "Un Working Hours ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Working Hours ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Working Hours {{ id }}?"
+      },
+      "detail": {
+        "title": "Working Hours"
+      },
+      "id": "ID",
+      "entry": "Entry",
+      "leavingWork": "Leaving Work",
+      "extraTime": "Extra Time",
+      "extraTime2": "Extra Time 2",
+      "entryRest": "Entry Rest",
+      "returnRest": "Return Rest",
+      "dayWeek": "Day Week",
+      "day": "Day",
+      "journey": "Journey"
+    }
+  }
+}

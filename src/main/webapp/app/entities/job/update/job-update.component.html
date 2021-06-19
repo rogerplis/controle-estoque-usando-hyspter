@@ -19,6 +19,44 @@
         </div>
 
         <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.job.hireDate" for="field_hireDate">Hire Date</label>
+          <div class="input-group">
+            <input
+              id="field_hireDate"
+              data-cy="hireDate"
+              type="text"
+              class="form-control"
+              name="hireDate"
+              ngbDatepicker
+              #hireDateDp="ngbDatepicker"
+              formControlName="hireDate"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="hireDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.job.salary" for="field_salary">Salary</label>
+          <input type="number" class="form-control" name="salary" id="field_salary" data-cy="salary" formControlName="salary" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.job.commissionPct" for="field_commissionPct"
+            >Commission Pct</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="commissionPct"
+            id="field_commissionPct"
+            data-cy="commissionPct"
+            formControlName="commissionPct"
+          />
+        </div>
+
+        <div class="form-group">
           <label class="form-control-label" jhiTranslate="controleestoquehyspterApp.job.minSalary" for="field_minSalary">Min Salary</label>
           <input type="number" class="form-control" name="minSalary" id="field_minSalary" data-cy="minSalary" formControlName="minSalary" />
         </div>

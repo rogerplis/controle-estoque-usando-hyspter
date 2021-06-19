@@ -34,6 +34,9 @@ class LocationResourceIT {
     private static final String DEFAULT_STREET_ADDRESS = "AAAAAAAAAA";
     private static final String UPDATED_STREET_ADDRESS = "BBBBBBBBBB";
 
+    private static final Long DEFAULT_NUMBER_ADDRESS = 1L;
+    private static final Long UPDATED_NUMBER_ADDRESS = 2L;
+
     private static final String DEFAULT_POSTAL_CODE = "AAAAAAAAAA";
     private static final String UPDATED_POSTAL_CODE = "BBBBBBBBBB";
 
@@ -72,6 +75,7 @@ class LocationResourceIT {
     public static Location createEntity(EntityManager em) {
         Location location = new Location()
             .streetAddress(DEFAULT_STREET_ADDRESS)
+            .numberAddress(DEFAULT_NUMBER_ADDRESS)
             .postalCode(DEFAULT_POSTAL_CODE)
             .city(DEFAULT_CITY)
             .stateProvince(DEFAULT_STATE_PROVINCE);
@@ -87,6 +91,7 @@ class LocationResourceIT {
     public static Location createUpdatedEntity(EntityManager em) {
         Location location = new Location()
             .streetAddress(UPDATED_STREET_ADDRESS)
+            .numberAddress(UPDATED_NUMBER_ADDRESS)
             .postalCode(UPDATED_POSTAL_CODE)
             .city(UPDATED_CITY)
             .stateProvince(UPDATED_STATE_PROVINCE);
@@ -113,6 +118,7 @@ class LocationResourceIT {
         assertThat(locationList).hasSize(databaseSizeBeforeCreate + 1);
         Location testLocation = locationList.get(locationList.size() - 1);
         assertThat(testLocation.getStreetAddress()).isEqualTo(DEFAULT_STREET_ADDRESS);
+        assertThat(testLocation.getNumberAddress()).isEqualTo(DEFAULT_NUMBER_ADDRESS);
         assertThat(testLocation.getPostalCode()).isEqualTo(DEFAULT_POSTAL_CODE);
         assertThat(testLocation.getCity()).isEqualTo(DEFAULT_CITY);
         assertThat(testLocation.getStateProvince()).isEqualTo(DEFAULT_STATE_PROVINCE);
@@ -150,6 +156,7 @@ class LocationResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(location.getId().intValue())))
             .andExpect(jsonPath("$.[*].streetAddress").value(hasItem(DEFAULT_STREET_ADDRESS)))
+            .andExpect(jsonPath("$.[*].numberAddress").value(hasItem(DEFAULT_NUMBER_ADDRESS.intValue())))
             .andExpect(jsonPath("$.[*].postalCode").value(hasItem(DEFAULT_POSTAL_CODE)))
             .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY)))
             .andExpect(jsonPath("$.[*].stateProvince").value(hasItem(DEFAULT_STATE_PROVINCE)));
@@ -168,6 +175,7 @@ class LocationResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(location.getId().intValue()))
             .andExpect(jsonPath("$.streetAddress").value(DEFAULT_STREET_ADDRESS))
+            .andExpect(jsonPath("$.numberAddress").value(DEFAULT_NUMBER_ADDRESS.intValue()))
             .andExpect(jsonPath("$.postalCode").value(DEFAULT_POSTAL_CODE))
             .andExpect(jsonPath("$.city").value(DEFAULT_CITY))
             .andExpect(jsonPath("$.stateProvince").value(DEFAULT_STATE_PROVINCE));
@@ -194,6 +202,7 @@ class LocationResourceIT {
         em.detach(updatedLocation);
         updatedLocation
             .streetAddress(UPDATED_STREET_ADDRESS)
+            .numberAddress(UPDATED_NUMBER_ADDRESS)
             .postalCode(UPDATED_POSTAL_CODE)
             .city(UPDATED_CITY)
             .stateProvince(UPDATED_STATE_PROVINCE);
@@ -212,6 +221,7 @@ class LocationResourceIT {
         assertThat(locationList).hasSize(databaseSizeBeforeUpdate);
         Location testLocation = locationList.get(locationList.size() - 1);
         assertThat(testLocation.getStreetAddress()).isEqualTo(UPDATED_STREET_ADDRESS);
+        assertThat(testLocation.getNumberAddress()).isEqualTo(UPDATED_NUMBER_ADDRESS);
         assertThat(testLocation.getPostalCode()).isEqualTo(UPDATED_POSTAL_CODE);
         assertThat(testLocation.getCity()).isEqualTo(UPDATED_CITY);
         assertThat(testLocation.getStateProvince()).isEqualTo(UPDATED_STATE_PROVINCE);
@@ -294,7 +304,7 @@ class LocationResourceIT {
         Location partialUpdatedLocation = new Location();
         partialUpdatedLocation.setId(location.getId());
 
-        partialUpdatedLocation.streetAddress(UPDATED_STREET_ADDRESS).city(UPDATED_CITY);
+        partialUpdatedLocation.streetAddress(UPDATED_STREET_ADDRESS).postalCode(UPDATED_POSTAL_CODE).stateProvince(UPDATED_STATE_PROVINCE);
 
         restLocationMockMvc
             .perform(
@@ -309,9 +319,10 @@ class LocationResourceIT {
         assertThat(locationList).hasSize(databaseSizeBeforeUpdate);
         Location testLocation = locationList.get(locationList.size() - 1);
         assertThat(testLocation.getStreetAddress()).isEqualTo(UPDATED_STREET_ADDRESS);
-        assertThat(testLocation.getPostalCode()).isEqualTo(DEFAULT_POSTAL_CODE);
-        assertThat(testLocation.getCity()).isEqualTo(UPDATED_CITY);
-        assertThat(testLocation.getStateProvince()).isEqualTo(DEFAULT_STATE_PROVINCE);
+        assertThat(testLocation.getNumberAddress()).isEqualTo(DEFAULT_NUMBER_ADDRESS);
+        assertThat(testLocation.getPostalCode()).isEqualTo(UPDATED_POSTAL_CODE);
+        assertThat(testLocation.getCity()).isEqualTo(DEFAULT_CITY);
+        assertThat(testLocation.getStateProvince()).isEqualTo(UPDATED_STATE_PROVINCE);
     }
 
     @Test
@@ -328,6 +339,7 @@ class LocationResourceIT {
 
         partialUpdatedLocation
             .streetAddress(UPDATED_STREET_ADDRESS)
+            .numberAddress(UPDATED_NUMBER_ADDRESS)
             .postalCode(UPDATED_POSTAL_CODE)
             .city(UPDATED_CITY)
             .stateProvince(UPDATED_STATE_PROVINCE);
@@ -345,6 +357,7 @@ class LocationResourceIT {
         assertThat(locationList).hasSize(databaseSizeBeforeUpdate);
         Location testLocation = locationList.get(locationList.size() - 1);
         assertThat(testLocation.getStreetAddress()).isEqualTo(UPDATED_STREET_ADDRESS);
+        assertThat(testLocation.getNumberAddress()).isEqualTo(UPDATED_NUMBER_ADDRESS);
         assertThat(testLocation.getPostalCode()).isEqualTo(UPDATED_POSTAL_CODE);
         assertThat(testLocation.getCity()).isEqualTo(UPDATED_CITY);
         assertThat(testLocation.getStateProvince()).isEqualTo(UPDATED_STATE_PROVINCE);

@@ -19,16 +19,20 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "hireDate",
-      "fieldType": "Instant"
+      "fieldName": "cpf",
+      "fieldType": "String"
     },
     {
-      "fieldName": "salary",
-      "fieldType": "Long"
+      "fieldName": "pis",
+      "fieldType": "String"
     },
     {
-      "fieldName": "commissionPct",
-      "fieldType": "Long"
+      "fieldName": "ctps",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "birthDate",
+      "fieldType": "LocalDate"
     }
   ],
   "relationships": [
@@ -45,6 +49,13 @@
       "relationshipName": "manager"
     },
     {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "journey",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "journey",
+      "ownerSide": true
+    },
+    {
       "relationshipType": "many-to-one",
       "otherEntityName": "department",
       "otherEntityRelationshipName": "employee",
@@ -56,7 +67,7 @@
   "entityTableName": "employee",
   "dto": "mapstruct",
   "pagination": "infinite-scroll",
-  "service": "serviceClass",
+  "service": "serviceImpl",
   "jpaMetamodelFiltering": false,
   "fluentMethods": true,
   "readOnly": false,
