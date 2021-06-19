@@ -65,11 +65,11 @@ enum Days {
 }
 entity WorkingHours {
 	entry LocalDate,
-	leavingWork Instant,
-	extraTime Instant,
-	extraTime2 Instant,
-	entryRest Instant,
-	returnRest Instant,
+	leavingWork Time,
+	extraTime Time,
+	extraTime2 Time,
+	entryRest Time,
+	returnRest Time,
     dayWeek LocalDate
 	day Days
 }
